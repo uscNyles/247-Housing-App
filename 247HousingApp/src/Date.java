@@ -6,6 +6,7 @@ public class Date {
 	private int year;
 	
 	public Date(int month, int day, int year) {
+		super();
 		this.month = month;
 		this.day = day;
 		this.year = year;
@@ -16,9 +17,7 @@ public class Date {
 	}
 
 	public void setMonth(int month) {
-		if (month > 0 && month < 13) {
-			this.month = month;
-		}
+		this.month = month;
 	}
 
 	public int getDay() {

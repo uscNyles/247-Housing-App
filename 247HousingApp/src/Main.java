@@ -38,6 +38,7 @@ public class Main {
 				System.out.println("Error: Please enter a number from 1 to 3.");
 				break;
 			}
+			
 		}
 	}
 }

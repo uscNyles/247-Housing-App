@@ -1,1 +1,1 @@
-enum PaymentType {CASH, CHECK, CREDIT, DEBIT};
+enum PropertyType {CASH, CHECK, CREDIT, DEBIT};
