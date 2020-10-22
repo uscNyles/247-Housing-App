@@ -37,11 +37,14 @@ public class Users {
 		Database.saveUsers();
 	}
 	
-	public void addGuest() {
-		
+	public void addGuest(String username, String password, String email, int userID, String phoneNumber, String name,
+			String bio) {
+		userList.add(new Guest(username, password, email, userID, phoneNumber, name, bio));
+
 	}
 	
-	public void addRealEstateAgent() {
-		
+	public void addRealEstateAgent(String username, String password, String email, int userID, String phoneNumber, String name,	String bio, String nameOfAgency, ArrayList<Property> listings) {
+		userList.add(new RealEstateAgent(username, password, email, userID, phoneNumber, name, bio, nameOfAgency, listings));
+
 	}
 }
