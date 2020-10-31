@@ -236,7 +236,7 @@ public class Main {
 				switch (selection) {
 				case 1:
 					ui.outputMenu("topProperties");
-					continue;;
+					continue;
 				case 2: //TODO
 					ui.outputMenu("giveReview");
 					continue;
