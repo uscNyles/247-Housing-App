@@ -13,7 +13,7 @@ public class DataWriter extends JSONConstants {
 			JSONArray users = DataReader.getUsersJSON();
 			for(int i = 0; i < users.size(); i++) {
 				JSONObject someUser = (JSONObject)users.get(i);
-				if(Integer.parseInt(someUser.get("id").toString()) == r.getUserID()) {
+				if(Integer.parseInt(someUser.get(ID).toString()) == r.getUserID()) {
 					someUser.replace(USERS_PASSWORD, r.getPassword());
 					someUser.replace(USERS_EMAIL, r.getEmail());
 					someUser.replace(USERS_PHONE, r.getPhoneNumber());
@@ -34,7 +34,7 @@ public class DataWriter extends JSONConstants {
 					}
 					someUser.put(USERS_FAVORITES, favorites);
 					if(r.getSeller() != null) {
-						someUser.replace(USERS_TYPE, "RS");
+						someUser.replace(USERS_TYPE, RENTER_SELLER);
 						someUser.remove(USERS_PROPERTIES);
 						Seller s = r.getSeller();
 						JSONArray properties = new JSONArray();
@@ -68,7 +68,7 @@ public class DataWriter extends JSONConstants {
 			contacts.add(cont);
 		}
 		renter.put(USERS_CONTACTS, contacts);
-		renter.put(USERS_TYPE, "R");
+		renter.put(USERS_TYPE, RENTER);
 		renter.put(USERS_USCID, r.getUscID());
 		JSONArray favorites = new JSONArray();
 		ArrayList<Property> renterFavorites = r.getFavorites();
@@ -99,7 +99,7 @@ public class DataWriter extends JSONConstants {
 			JSONArray users = DataReader.getUsersJSON();
 			for(int i = 0; i < users.size(); i++) {
 				JSONObject someUser = (JSONObject)users.get(i);
-				if(Integer.parseInt(someUser.get("id").toString()) == s.getUserID()) {
+				if(Integer.parseInt(someUser.get(ID).toString()) == s.getUserID()) {
 					someUser.replace(USERS_PASSWORD, s.getPassword());
 					someUser.replace(USERS_EMAIL, s.getEmail());
 					someUser.replace(USERS_PHONE, s.getPhoneNumber());
@@ -143,7 +143,7 @@ public class DataWriter extends JSONConstants {
 			contacts.add(cont);
 		}
 		seller.put(USERS_CONTACTS, contacts);
-		seller.put(USERS_TYPE, "S");
+		seller.put(USERS_TYPE, SELLER);
 		JSONArray properties = new JSONArray();
 		ArrayList<Property> sellerProperties = s.getProperties();
 		for(Property prop : sellerProperties) {
@@ -162,11 +162,10 @@ public class DataWriter extends JSONConstants {
 	@SuppressWarnings("unchecked")
 	public static void writeRE(RealEstateAgent re) {
 		if(DataReader.userExists(re.getUserID())) {
-			//Update information, don't create a new JSON thing.
 			JSONArray users = DataReader.getUsersJSON();
 			for(int i = 0; i < users.size(); i++) {
 				JSONObject someUser = (JSONObject)users.get(i);
-				if(Integer.parseInt(someUser.get("id").toString()) == re.getUserID()) {
+				if(Integer.parseInt(someUser.get(ID).toString()) == re.getUserID()) {
 					someUser.replace(USERS_PASSWORD, re.getPassword());
 					someUser.replace(USERS_EMAIL, re.getEmail());
 					someUser.replace(USERS_PHONE, re.getPhoneNumber());
@@ -188,7 +187,7 @@ public class DataWriter extends JSONConstants {
 					}
 				}
 			}
-			try (FileWriter file = new FileWriter(USERS_FILE, true)) {
+			try (FileWriter file = new FileWriter(USERS_FILE)) {
 				file.write(users.toJSONString());
 				file.flush();
 				file.close();
@@ -211,7 +210,7 @@ public class DataWriter extends JSONConstants {
 			contacts.add(cont);
 		}
 		agent.put(USERS_CONTACTS, contacts);
-		agent.put(USERS_TYPE, "RE");
+		agent.put(USERS_TYPE, REAL_ESTATE);
 		agent.put(USERS_AGENCY, re.getNameOfAgency());
 		JSONArray listings = new JSONArray();
 		ArrayList<Property> agentListings = re.getListings();
@@ -231,11 +230,10 @@ public class DataWriter extends JSONConstants {
 	@SuppressWarnings("unchecked")
 	public static void writeProperty(Property p) {
 		if(DataReader.propertyExists(p.getID())) {
-			//Update information, don't create a new JSON thing.
 			JSONArray props = DataReader.getPropertiesJSON();
 			for(int i = 0; i < props.size(); i++) {
 				JSONObject someProp = (JSONObject)props.get(i);
-				if(Integer.parseInt(someProp.get("id").toString()) == p.getID()) {
+				if(Integer.parseInt(someProp.get(ID).toString()) == p.getID()) {
 					someProp.replace(PROPERTIES_NAME, p.getName());
 					someProp.replace(PROPERTIES_DESCRIPTION, p.getDescription());
 					someProp.replace(PROPERTIES_CONDITION, p.getCondition());
@@ -304,7 +302,7 @@ public class DataWriter extends JSONConstants {
 		} else {
 			property.put(PROPERTIES_SUB, 0);
 		}
-		property.put(PROPERTIES_LEASE, p.getLease());
+		//property.put(PROPERTIES_LEASE, p.getLease());
 		JSONArray payments = new JSONArray();
 		ArrayList<PaymentType> propertyPayments = p.getAcceptedPayments();
 		for(PaymentType pay : propertyPayments) {
@@ -325,8 +323,10 @@ public class DataWriter extends JSONConstants {
 			JSONArray revs = DataReader.getReviewsJSON();
 			for(int i = 0; i < revs.size(); i++) {
 				JSONObject someRev = (JSONObject)revs.get(i);
-				someRev.replace(REVIEWS_RATING, r.getRating());
-				someRev.replace(REVIEWS_DESCRIPTION, r.getDescription());
+				if(Integer.parseInt(someRev.get(ID).toString()) == r.getID()) {
+					someRev.replace(REVIEWS_RATING, r.getRating());
+					someRev.replace(REVIEWS_DESCRIPTION, r.getDescription());
+				}
 			}
 			try (FileWriter file = new FileWriter(REVIEWS_FILE)) {
 				file.write(revs.toJSONString());
@@ -349,5 +349,205 @@ public class DataWriter extends JSONConstants {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void removeUser(int id) {
+		if(DataReader.userExists(id)) {
+			JSONArray users = DataReader.getUsersJSON();
+			for(int i = 0; i < users.size(); i++) {
+				 JSONObject someUser = (JSONObject)users.get(i);
+				 if(Integer.parseInt(someUser.get(ID).toString()) == id) {
+					String userType = someUser.get(USERS_TYPE).toString();
+					if(userType.equals(REAL_ESTATE)) {
+						JSONArray listings = (JSONArray)someUser.get(USERS_LISTINGS);
+						ArrayList<String> listString = new ArrayList<String>();
+						for(int j = 0; j < listings.size(); j++) {
+							listString.add(listings.get(j).toString());
+						}
+						users.remove(i);
+						try (FileWriter file = new FileWriter(USERS_FILE)) {
+							file.write(users.toJSONString());
+							file.flush();
+							file.close();
+						} catch(IOException e) {
+							e.printStackTrace();
+						}
+						for(String s : listString) {
+							removeProperty(Integer.parseInt(s));
+						}
+						return;
+					}
+					if(userType.contains(SELLER)) {
+						JSONArray properties = (JSONArray)someUser.get(USERS_LISTINGS);
+						ArrayList<String> propString = new ArrayList<String>();
+						for(int j = 0; j < properties.size(); j++) {
+							propString.add(properties.get(j).toString());
+						}
+						users.remove(i);
+						try (FileWriter file = new FileWriter(USERS_FILE)) {
+							file.write(users.toJSONString());
+							file.flush();
+							file.close();
+						} catch(IOException e) {
+							e.printStackTrace();
+						}
+						for(String s : propString) {
+							removeProperty(Integer.parseInt(s));
+						}
+						if(!userType.contains(RENTER))
+						{
+							return;
+						}
+					}
+					users.remove(i);
+					try (FileWriter file = new FileWriter(USERS_FILE)) {
+						file.write(users.toJSONString());
+						file.flush();
+						file.close();
+					} catch(IOException e) {
+						e.printStackTrace();
+					}
+					removeReviewAuthorID(id);
+					return;
+				 }
+			 }
+		}
+	}
+	
+	public static void removeProperty(int id) {
+		if(DataReader.propertyExists(id)) {
+			JSONArray props = DataReader.getPropertiesJSON();
+			for(int i = 0; i < props.size(); i++) {
+				JSONObject someProp = (JSONObject)props.get(i);
+				if(Integer.parseInt(someProp.get(ID).toString()) == id) {
+					removePropertyFromUsers(id);
+					JSONArray revs = (JSONArray)someProp.get(PROPERTIES_REVIEWS);
+					ArrayList<String> revID = new ArrayList<String>();
+					for(int j = 0; j < revs.size(); j++) {
+						revID.add(revs.get(j).toString());
+					}
+					props.remove(i);
+					try (FileWriter file = new FileWriter(PROPERTIES_FILE)) {
+						file.write(props.toJSONString());
+						file.flush();
+						file.close();
+					} catch(IOException e) {
+						e.printStackTrace();
+					}
+					for(int j = 0; j < revID.size(); j++) {
+						removeReview(Integer.parseInt(revID.get(j)));
+					}
+					return;
+				}
+			}
+		}
+	}
+	
+	public static void removeReview(int id) {
+		if(DataReader.reviewExists(id)) {
+			JSONArray revs = DataReader.getReviewsJSON();
+			for(int i = 0; i < revs.size(); i++) {
+				JSONObject someRev = (JSONObject)revs.get(i);
+				if(Integer.parseInt(someRev.get(ID).toString()) == id) {
+					revs.remove(i);
+					try (FileWriter file = new FileWriter(REVIEWS_FILE)) {
+						file.write(revs.toJSONString());
+						file.flush();
+						file.close();
+					} catch(IOException e) {
+						e.printStackTrace();
+					}
+					removeReviewFromProperties(id);
+					return;
+				}
+			}
+		}
+	}
+	
+	private static void removeReviewAuthorID(int authorID) {
+		JSONArray revs = DataReader.getReviewsJSON();
+		for(int i = 0; i < revs.size(); i++) {
+			JSONObject someRev = (JSONObject)revs.get(i);
+			if(Integer.parseInt(someRev.get(REVIEWS_AUTHOR).toString()) == authorID) {
+				int reviewID = Integer.parseInt(someRev.get(ID).toString());
+				revs.remove(i);
+				try (FileWriter file = new FileWriter(REVIEWS_FILE)) {
+					file.write(revs.toJSONString());
+					file.flush();
+					file.close();
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+				removeReviewFromProperties(reviewID);
+				return;
+			}
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static void removeReviewFromProperties(int id) {
+		JSONArray props = DataReader.getPropertiesJSON();
+		for(int i = 0; i < props.size(); i++) {
+			JSONObject someProp = (JSONObject)props.get(i);
+			JSONArray revs = (JSONArray)someProp.get(PROPERTIES_REVIEWS);
+			for(int j = 0; j < revs.size(); j++) {
+				if(Integer.parseInt(revs.get(j).toString()) == id) {
+					revs.remove(j);
+				}
+			}
+			someProp.replace(PROPERTIES_REVIEWS, revs);
+		}
+		try (FileWriter file = new FileWriter(PROPERTIES_FILE)) {
+			file.write(props.toJSONString());
+			file.flush();
+			file.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static void removePropertyFromUsers(int id) {
+		 JSONArray users = DataReader.getUsersJSON();
+		 for(int i = 0; i < users.size(); i++) {
+			 JSONObject someUser = (JSONObject)users.get(i);
+			 String userType = someUser.get(USERS_TYPE).toString();
+			 if(userType.equals(REAL_ESTATE)) {
+				 JSONArray listings = (JSONArray)someUser.get(USERS_LISTINGS);
+				 for(int j = 0; j < listings.size(); j++) {
+					 if(Integer.parseInt(listings.get(j).toString()) == id) {
+						 listings.remove(j);
+					 }
+				 }
+				 someUser.replace(USERS_LISTINGS, listings);
+			 }
+			 else {
+				 if(userType.contains(RENTER)) {
+					 JSONArray favs = (JSONArray)someUser.get(USERS_FAVORITES);
+					 for(int j = 0; j < favs.size(); j++) {
+						 if(Integer.parseInt(favs.get(j).toString()) == id) {
+							 favs.remove(j);
+						 }
+					 }
+					 someUser.replace(USERS_FAVORITES, favs);
+				 }
+				 if(userType.contains(SELLER)) {
+					 JSONArray props = (JSONArray)someUser.get(USERS_FAVORITES);
+					 for(int j = 0; j < props.size(); j++) {
+						 if(Integer.parseInt(props.get(j).toString()) == id) {
+							 props.remove(j);
+						 }
+					 }
+					 someUser.replace(USERS_PROPERTIES, props);
+				 }
+			 }
+		 }
+		 try (FileWriter file = new FileWriter(USERS_FILE)) {
+				file.write(users.toJSONString());
+				file.flush();
+				file.close();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
 	}
 }

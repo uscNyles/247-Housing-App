@@ -17,6 +17,11 @@ public abstract class JSONConstants {
 	protected static final String USERS_AGENCY = "agency";
 	protected static final String USERS_LISTINGS = "listings";
 	protected static final String USERS_PROPERTIES = "properties";
+	protected static final String RENTER = "R";
+	protected static final String SELLER = "S";
+	protected static final String RENTER_SELLER = "RS";
+	protected static final String REAL_ESTATE = "RE";
+	
 	
 	protected static final String PROPERTIES_FILE = "src/properties.json";
 	protected static final String PROPERTIES_NAME = "name";
@@ -32,7 +37,7 @@ public abstract class JSONConstants {
 	protected static final String PROPERTIES_REVIEWS = "reviews";
 	protected static final String PROPERTIES_TYPE = "type";
 	protected static final String PROPERTIES_SUB = "canSubLease";
-	protected static final String PROPERTIES_LEASE = "lease";
+	//protected static final String PROPERTIES_LEASE = "lease";
 	protected static final String PROPERTIES_PAYMENTS = "payments";
 	protected static final String PROPERTIES_OWNER = "owner";
 	
@@ -41,4 +46,8 @@ public abstract class JSONConstants {
 	protected static final String REVIEWS_RATING = "rating";
 	protected static final String REVIEWS_DESCRIPTION = "description";
 	
+	protected static final String PAYMENT_CASH = "cash";
+	protected static final String PAYMENT_CHECK = "check";
+	protected static final String PAYMENT_DEBIT = "debit";
+	protected static final String PAYMENT_CREDIT = "credit";	
 }
