@@ -226,6 +226,6 @@ public class UserInterface {
 	}
 
 	private void deleteProperty(int id) {
-		database.deleteProperty(;)
+		database.deleteProperty(id);
 	}
 }
