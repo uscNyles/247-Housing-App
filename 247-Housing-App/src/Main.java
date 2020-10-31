@@ -141,33 +141,34 @@ public class Main {
 
 
 			if (currentUser instanceof Renter && (((Renter) currentUser).getSeller() != null)) {
+				ui.outputMenu("renterSellerUserMenu");
 				switch (selection) {
 				case 1:
 					ui.outputMenu("topProperties");
-					continue;
+					break;
 				case 2: //TODO
 					ui.outputMenu("giveReview");
-					continue;
+					break;
 				case 3: // TODO
 					ui.outputMenu("renterViewFavorites");
-					continue;
+					break;
 				case 4: //TODO
 					ui.outputMenu("addToFavorites");
-					continue;
+					break;
 				case 5: //TODO
 					ui.outputMenu("rmFromFavorites");
-					continue;
+					break;
 				case 6: //TODO
 					ui.outputMenu("addProperty");
-					continue;
+					break;
 				case 7: //TODO
 					ui.outputMenu("showProperties");
-					continue;
+					break;
 				case 110:
 					ui.outputMenu("accountSettings");
 					//should include: get(name, phoneNumber, email, bio, username, contactinfo, 
 					//ID(s), ) set(contactinfo, bio, phoneNumber, password, Name)
-					continue;
+					break;
 				case 120:
 					ui.outputMenu("leave");
 					System.exit(0);
@@ -176,27 +177,28 @@ public class Main {
 					break;
 				}
 			} else if (currentUser instanceof Renter) {
+				ui.outputMenu("renterUserMenu");
 				switch (selection) {
 				case 1:
 					ui.outputMenu("topProperties");
-					continue;
+					break;
 				case 2: //TODO
 					ui.outputMenu("giveReview");
-					continue;
+					break;
 				case 3: // TODO
 					ui.outputMenu("renterViewFavorites");
-					continue;
+					break;
 				case 4: //TODO
 					ui.outputMenu("addToFavorites");
-					continue;
+					break;
 				case 5: //TODO
 					ui.outputMenu("rmFromFavorites");
-					continue;
+					break;
 				case 110:
 					ui.outputMenu("accountSettings");
 					//should include: get(name, phoneNumber, email, bio, username, contactinfo, 
 					//ID(s), ) set(contactinfo, bio, phoneNumber, password, Name)
-					continue;
+					break;
 				case 120:
 					ui.outputMenu("leave");
 					System.exit(0);
@@ -210,15 +212,16 @@ public class Main {
 				switch (selection) {
 				case 1:
 					ui.outputMenu("topProperties");
-					continue;
+					break;
 				case 2: //TODO
 					ui.outputMenu("giveReview");
+					break;
 				case 3: //TODO
 					ui.outputMenu("addProperty");
-					continue;
+					break;
 				case 4: //TODO
 					ui.outputMenu("showProperties");
-					continue;
+					break;
 				case 110:
 					ui.outputMenu("accountSettings");
 					//should include: get(name, phoneNumber, email, bio, username, contactinfo, 
@@ -236,16 +239,16 @@ public class Main {
 				switch (selection) {
 				case 1:
 					ui.outputMenu("topProperties");
-					continue;
+					break;
 				case 2: //TODO
 					ui.outputMenu("giveReview");
-					continue;
+					break;
 				case 3: 
 					ui.outputMenu("addToListings");
-					continue;
+					break;
 				case 4:
 					ui.outputMenu("showListings");
-					continue;
+					break;
 				case 110:
 					ui.outputMenu("accountSettings");
 					//should include: get(name, phoneNumber, email, bio, username, contactinfo, 
@@ -263,15 +266,15 @@ public class Main {
 				switch (selection) {
 				case 1:
 					ui.outputMenu("topProperties");
-					continue;
+					break;
 				case 2: //TODO
 					ui.outputMenu("giveReview");
-					continue;
+					break;
 				case 110:
 					ui.outputMenu("accountSettings");
 					//should include: get(name, phoneNumber, email, bio, username, contactinfo, 
 					//ID(s), ) set(contactinfo, bio, phoneNumber, password, Name)
-					continue;
+					break;
 				case 120:
 					ui.outputMenu("leave");
 					System.exit(0);
