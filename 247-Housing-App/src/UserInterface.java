@@ -100,9 +100,10 @@ public class UserInterface {
 
 				if (DataReader.getProperty(propertyId) != null) {
 					properties.add(DataReader.getProperty(propertyId));
-				}
-				if (String.valueOf(propertyId).equals("done")) {
+				} else if (String.valueOf(propertyId).equals("done")) {
 					addProperty = false;
+				} else {
+					menus.getInvalidInputMenu();
 				}
 			}
 			return (new Seller(username, password, email, userID, phoneNumber, username, bio, properties));
