@@ -31,9 +31,7 @@ public class UserInterface {
 			System.out.println(menus.getLoginSuccessMenu());
 		} else if (menu.equals("createUser")) {
 			System.out.println(menus.getCreateUserMenu());
-		} else if (menu.contentEquals("createGuest")) {
-			System.out.println(menus.getCreateUserMenu());
-		}
+		} 
 	}
 
 	public User userLogin(String username, String password) {
