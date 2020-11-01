@@ -15,6 +15,7 @@ public class Menu {
 	private String loginSuccessMenu;
 	private String createUserMenu;
 	private String invalidInputMenu;
+	private String searchPropertiesMenu;
 	
 	public Menu() {
 		setLoginMenu();
@@ -27,6 +28,7 @@ public class Menu {
 		setLoginSuccessMenu();
 		setCreateUserMenu(false);
 		setInvalidInputMenu();
+		setSearchPropertiesMenu();
 	}
 	
 	private void setLoginMenu() {
@@ -34,7 +36,7 @@ public class Menu {
 	}
 
 	private void setWelcomeMenu() {
-		this.welcomeMenu = "\t\tWelcome to the UofSC Off-Campus Housing Finder!\n"
+		this.welcomeMenu = "\t\tWelcome to the UofSC Off-Campus Housing Finder!\n\n"
 				         + "Please select from the following:\n"
 				         + "\t1. Login\n"
 				         + "\t2. Create an account\n"
@@ -106,7 +108,11 @@ public class Menu {
 	}
 	
 	private void setInvalidInputMenu() {
-		this.invalidInputMenu = "Please inter an acceptable value";
+		this.invalidInputMenu = "Please enter an acceptable value";
+	}
+	
+	private void setSearchPropertiesMenu() {
+		this.searchPropertiesMenu = "";
 	}
 
 	public String getLoginMenu() {
