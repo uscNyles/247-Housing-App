@@ -49,6 +49,7 @@ public class DataReader extends JSONConstants {
 		try {
 			FileReader read = new FileReader(USERS_FILE);
 			JSONArray usersJSON = (JSONArray)new JSONParser().parse(read);
+			read.close();
 			for(int i = 0; i < usersJSON.size(); i++) {
 				JSONObject userJSON = (JSONObject)usersJSON.get(i);
 				int id = Integer.parseInt(String.valueOf(userJSON.get(ID)));
@@ -64,34 +65,37 @@ public class DataReader extends JSONConstants {
 					contacts.add(contactsJSON.get(j).toString());
 				}
 				String type = String.valueOf(userJSON.get(USERS_TYPE));
-				String uscid = String.valueOf(userJSON.get(USERS_USCID));
-				ArrayList<String> favorites = new ArrayList<String>();
-				if(type.contains(RENTER)) {
-					JSONArray favoritesJSON = (JSONArray)userJSON.get(USERS_FAVORITES);
-					for(int j = 0; j < favoritesJSON.size(); j++) {
-						favorites.add(favoritesJSON.get(j).toString());
-					}
-				}
-				ArrayList<String> properties = new ArrayList<String>();
-				if(type.contains(SELLER)) {
-					JSONArray propertiesJSON = (JSONArray)userJSON.get(USERS_PROPERTIES);
-					for(int j = 0; j < propertiesJSON.size(); j++) {
-						properties.add(propertiesJSON.get(j).toString());
-					}
-				}
 				String agency = "";
+				String uscid ="";
 				ArrayList<String> listings = new ArrayList<String>();
+				ArrayList<String> favorites = new ArrayList<String>();
+				ArrayList<String> properties = new ArrayList<String>();
 				if(type.contains(REAL_ESTATE)) {
 					agency = (String)userJSON.get(USERS_AGENCY);
 					JSONArray listingsJSON = (JSONArray)userJSON.get(USERS_LISTINGS);
 					for(int j = 0; j < listingsJSON.size(); j++) {
 						listings.add(listingsJSON.get(j).toString());
 					}
+				} else {
+					 uscid = String.valueOf(userJSON.get(USERS_USCID));
+					if(type.contains(RENTER)) {
+						JSONArray favoritesJSON = (JSONArray)userJSON.get(USERS_FAVORITES);
+						for(int j = 0; j < favoritesJSON.size(); j++) {
+							favorites.add(favoritesJSON.get(j).toString());
+						}
+					}
+					if(type.contains(SELLER)) {
+						JSONArray propertiesJSON = (JSONArray)userJSON.get(USERS_PROPERTIES);
+						for(int j = 0; j < propertiesJSON.size(); j++) {
+							properties.add(propertiesJSON.get(j).toString());
+						}
+					}
 				}
 				if(type.equals(RENTER)) {
+					
 					Renter r = new Renter(username, password, email, id, phone, name, bio, uscid);
 					for(int j = 0; j < favorites.size(); j++) {
-						r.addFavorite(getProperty(Integer.parseInt(favorites.get(j))));
+						r.addFavoriteDB(getProperty(Integer.parseInt(favorites.get(j))));
 					}
 					users.add(r);
 				} else if(type.equals(REAL_ESTATE)) {
@@ -113,7 +117,7 @@ public class DataReader extends JSONConstants {
 					}
 					Renter rs = new Renter(username, password, email, id, phone, name, bio, uscid, true, new Seller(username, password, email, id, phone, name, bio, propertiesProperty));
 					for(int j = 0; j < favorites.size(); j++) {
-						rs.addFavorite(getProperty(Integer.parseInt(favorites.get(j))));
+						rs.addFavoriteDB(getProperty(Integer.parseInt(favorites.get(j))));
 					}
 					users.add(rs);
 				}				
@@ -132,7 +136,7 @@ public class DataReader extends JSONConstants {
 		try {
 			FileReader read = new FileReader(PROPERTIES_FILE);
 			JSONArray propertiesJSON = (JSONArray)new JSONParser().parse(read);
-			
+			read.close();
 			for(int i = 0; i < propertiesJSON.size(); i++) {
 				JSONObject propJSON = (JSONObject)propertiesJSON.get(i);
 				int id = Integer.parseInt(String.valueOf(propJSON.get(ID)));
@@ -184,7 +188,7 @@ public class DataReader extends JSONConstants {
 				}
 				Property p = new Property(owner, address, zip, city, state, description, condition, room, amenities, price, propType);
 				for(PaymentType pay : payments) {
-					p.addPaymentType(pay);
+					p.addPaymentTypeDB(pay);
 				}
 				p.setPropertyID(id);
 				p.setName(name);
@@ -203,6 +207,7 @@ public class DataReader extends JSONConstants {
 		try {
 			FileReader read = new FileReader(REVIEWS_FILE);
 			JSONArray reviewsJSON = (JSONArray)new JSONParser().parse(read);
+			read.close();
 			for(int i = 0; i < reviewsJSON.size(); i++) {
 				JSONObject revJSON = (JSONObject)reviewsJSON.get(i);
 				int id = Integer.parseInt(String.valueOf(revJSON.get(ID)));
