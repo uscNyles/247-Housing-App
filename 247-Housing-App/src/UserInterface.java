@@ -36,18 +36,10 @@ public class UserInterface {
 		}
 	}
 
-	public User userLogin() {
-		s = new Scanner(System.in);
-
-		System.out.println("Username: ");
-		String username = s.nextLine();
-		System.out.println("\nPassword: ");
-		String password = s.nextLine();
-		
-		if (UserAPI.userLogin(username, password) == null) {
-			System.out.println("Sorry. Unable to login at this time. Please check that the entered username and password are correct and try again.");
+	public User userLogin(String username, String password) {
+		if (UserAPI.userLogin(username, password) == null) 
 			return null;
-		} else {
+		else {
 			outputMenu("loginSuccess");
 			return (UserAPI.userLogin(username, password));
 		}
@@ -211,7 +203,7 @@ public class UserInterface {
 			}
 		}
 
-		PropertyAPI.createProperty(new Property(sellerUser, condition, condition, condition, condition, condition,
+		PropertyAPI.createProperty(new Property(sellerUser.getUserID(), condition, condition, condition, condition, condition,
 				condition, roomNumber, amenities, price, propertyType));
 	}
 
