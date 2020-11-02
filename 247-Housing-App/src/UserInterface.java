@@ -9,6 +9,7 @@ public class UserInterface {
 	private Menu menus;
 
 	public UserInterface() {
+		s = new Scanner(System.in);
 		menus = new Menu();
 	}
 
@@ -31,7 +32,17 @@ public class UserInterface {
 			System.out.println(menus.getLoginSuccessMenu());
 		} else if (menu.equals("createUser")) {
 			System.out.println(menus.getCreateUserMenu());
-		} 
+		} else if (menu.equals("guestoptions")) {
+			System.out.println(menus.getGuestOptions());
+		} else if (menu.equals("renteroptions")) {
+			System.out.println(menus.getRenterOptions());
+		} else if (menu.equals("reaoptions")) {
+			System.out.println(menus.getREAOptions());
+		} else if (menu.equals("selleroptions")) {
+			System.out.println(menus.getSellerOptions());
+		} else if (menu.equals("renterselleroptions")) {
+			System.out.println(menus.getRenterSellerOptions());
+		}
 	}
 
 	public int userLogin(String username, String password) {
@@ -44,6 +55,7 @@ public class UserInterface {
 		}
 	}
 
+	//NEED TO MAKE THIS CREATE ROOMS AS WELL -> CURRENTLY ONLY CREATES A PROPERTY
 	public void addProperty(Seller sellerUser) {
 		System.out.println("Name:");
 		String name = s.nextLine();
@@ -98,8 +110,47 @@ public class UserInterface {
 			}
 		}
 
-		PropertyAPI.createProperty(new Property(sellerUser.getUserID(), condition, condition, condition, condition, condition,
-				condition, roomNumber, amenities, price, propertyType));
+		PropertyAPI.createProperty(new Property(sellerUser.getUserID(), address, city, state, zipCode, description));
+	}
+	
+	public void searchProperties(String searchQuery) {
+		//First, search through everything related to the complex
+		ArrayList<Property> props = PropertyAPI.getProperties();
+		//These have something that the user is searching for
+		for(Property p : props) {
+			if(searchQuery.contains(p.getAddress()) || searchQuery.contains(p.getCity()) || searchQuery.contains(p.getZipCode()) || searchQuery.contains(p.getName())) {
+				for(Room r : p.getRooms()) {
+					System.out.println(p.toString());
+					System.out.println(r.toString());
+					System.out.println("-------------------------");
+				}
+				continue;
+			}
+			room:
+			for(Room r : p.getRooms()) {
+				for(String s : r.getAmenities()) {
+					if(searchQuery.contains(s)) {
+						System.out.println(p.toString());
+						System.out.println(r.toString());
+						System.out.println("-------------------------");
+						break room;
+					}
+				}
+				for(String s : r.getBonuses()) {
+					if(searchQuery.contains(s)) {
+						System.out.println(p.toString());
+						System.out.println(r.toString());
+						System.out.println("-------------------------");
+						break room;
+					}
+				}
+				if(searchQuery.contains(r.getBaths() + "") || searchQuery.contains(r.getBeds() + "") || searchQuery.contains(r.getCondition())) {
+					System.out.println(p.toString());
+					System.out.println(r.toString());
+					System.out.println("-------------------------");
+				}
+			}
+		}
 	}
 
 	private void deleteUser(int id) {

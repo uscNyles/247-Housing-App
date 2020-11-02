@@ -1,3 +1,5 @@
+
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -9,11 +11,18 @@ public class Main {
 	protected static Renter renter;
 	protected static Seller seller;
 	protected static RealEstateAgent rea;
-	private static LeaseWriter leaseWriter;
 
 	public static void main(String[] args) throws FileNotFoundException {
-		leaseWriter = new LeaseWriter();
-		leaseWriter.SignLease();
+		 LeaseWriter leaseWriter = new LeaseWriter();
+		 Date startDate= new Date(1, 16, 2021);
+		 Date endDate = new Date(4, 5, 2022);
+		 
+		 ArrayList<Integer> tenants = new ArrayList<Integer>();
+		 tenants.add(1);
+		 tenants.add(2);
+		 
+		 leaseWriter.SignLease( tenants, startDate, endDate, 1, 1);
+		
 		s = new Scanner(System.in);
 		ui = new UserInterface();
 		int currentUserType = -1;
@@ -98,11 +107,50 @@ public class Main {
 	}
 	
 	public static void runREA() {
-		//TODO
+		while (true) {
+			ui.outputMenu("reaoptions");
+			System.out.println("Enter selection: ");
+			int selection = s.nextInt();
+			boolean good = true;
+			s.nextLine();
+			switch (selection) {
+			case 1:
+				
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			default:
+				System.out.println("Please enter a value between 1 and 4.");
+				good = false;
+			}
+			if (good) {
+				
+			}
+		}
 	}
 	
 	public static void runGuest() {
-		
+		while (true) {
+			ui.outputMenu("guestoptions");
+			System.out.println("Enter selection: ");
+			int selection = s.nextInt();
+			switch (selection) {
+			case 1:
+				System.out.println("Enter search keywords: ");
+				String search = s.nextLine();
+				ui.searchProperties(search);
+				break;
+			case 2:
+				ui.outputMenu("leave");
+				System.exit(0);
+			default:
+					
+			}
+		}
 	}
 /***************************************************
  * End                                             *

@@ -28,6 +28,29 @@ public class Room {
 		this.price = price;
 	}
 	
+	public String toString() {
+		//TODO - Make a toString function
+		String ret = "Room Information: "
+				+ "\n\tRoom ID: " + roomID
+				+ "\n\tRoom Number: " + roomNumber
+				+ "\n\tBed Count: " + beds
+				+ "\n\tBath Count: " + baths
+				+ "\n\tCondition: " + condition
+				+ "\n\tAmenities:\n";
+		for (String amenity : amenities) {
+			ret += "\t\t- " + amenity + "\n";
+		}
+		ret += "\tBonuses:\n";
+		for (String bonus : bonuses) {
+			ret += "\t\t- " + bonus + "\n";
+		}
+		ret += "\tProperty Type: " + propertyType.toString() 
+			+ "\n\tCan sub-lease: " + canSubLease 
+			+ "\n\tCurrently Leased: " + isLeased
+			+ "\n\tPrice per month: " + price;
+		return  ret;
+	}
+	
 	public int getRoomID() {
 		return this.roomID;
 	}
@@ -92,15 +115,15 @@ public class Room {
 		this.condition = con;
 	}
 	
-	public void addAmenities(String amenity) {
+	public void addAmenity(String amenity) {
 		this.amenities.add(amenity);
 	}
 	
-	public void addAmenitiesDB(String amenity) {
+	public void addAmenityDB(String amenity) {
 		this.amenities.add(amenity);
 	}
 	
-	public void rmAmenities(String amenity) {
+	public void removeAmenity(String amenity) {
 		for(int i = 0; i < this.amenities.size(); i++) {
 			if(this.amenities.get(i).equalsIgnoreCase(amenity)) {
 				this.amenities.remove(i);
@@ -108,16 +131,7 @@ public class Room {
 			}
 		}
 	}
-	
-	public void rmAmenitiesDB(String amenity) {
-		for(int i = 0; i < this.amenities.size(); i++) {
-			if(this.amenities.get(i).equalsIgnoreCase(amenity)) {
-				this.amenities.remove(i);
-				break;
-			}
-		}
-	}
-	
+
 	public void addBonus(String bonus) {
 		this.bonuses.add(bonus);
 	}
