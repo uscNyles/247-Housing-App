@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,8 +9,11 @@ public class Main {
 	protected static Renter renter;
 	protected static Seller seller;
 	protected static RealEstateAgent rea;
+	private static LeaseWriter leaseWriter;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
+		leaseWriter = new LeaseWriter();
+		leaseWriter.SignLease();
 		s = new Scanner(System.in);
 		ui = new UserInterface();
 		int currentUserType = -1;
