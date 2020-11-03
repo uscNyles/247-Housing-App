@@ -13,6 +13,14 @@ public class Review {
 		author = renter.getName();
 		authorID = renter.getUserID();
 	}
+
+	public Review(int author, double rating, String description, String authorName) {
+		this.rating = setRating(rating);
+		this.description = description;
+
+		this.author = authorName;
+		authorID = author;
+	}
 	
 	private double setRating(double rating) {
 		if (rating >= 0 && rating <= 5) {

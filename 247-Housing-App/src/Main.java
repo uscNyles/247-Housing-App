@@ -10,17 +10,20 @@ public class Main {
 	protected static Renter renter;
 	protected static Seller seller;
 	protected static RealEstateAgent rea;
-	PropertyAPI  propertyApi = PropertyAPI.getInstance();
+	protected static PropertyAPI propertyApi;
 	protected static RoomAPI roomApi;
 	protected static UserAPI userApi;
 	protected static ReviewAPI reviewApi;
+	
 
 	public static void main(String[] args) {
 		s = new Scanner(System.in);
 		ui = new UserInterface();
+		userApi = UserAPI.getInstance();
+		propertyApi = PropertyAPI.getInstance();
+		roomApi = RoomAPI.getInstance();
+		reviewApi = ReviewAPI.getInstance();
 		
-		roomApi = new RoomAPI();
-		reviewApi = new ReviewAPI();
 		int currentUserType = -1;
 		ui.outputMenu("welcome");
 		int selection;
@@ -32,9 +35,9 @@ public class Main {
 				// Login
 				while (currentUserType == -1) {
 					ui.outputMenu("login");
-					System.out.println("Username: ");
+					System.out.print("Username: ");
 					String username = s.nextLine();
-					System.out.println("Password: ");
+					System.out.print("Password: ");
 					String password = s.nextLine();
 					currentUserType = ui.userLogin(username, password);
 					if (currentUserType == -1) {
