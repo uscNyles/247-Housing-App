@@ -1,5 +1,6 @@
 
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,9 +15,19 @@ public class Main {
 	protected static RoomAPI roomApi;
 	protected static UserAPI userApi;
 	protected static ReviewAPI reviewApi;
+	private static LeaseWriter lw;
 	
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
+		lw = new LeaseWriter();
+		ArrayList<Integer>  tenantIDs = new ArrayList<Integer>();
+		tenantIDs.add(1);
+		tenantIDs.add(2);
+		Date startDate = new Date(1,16,2020);
+		Date endDate = new Date(5,23,2023);
+		
+		lw.SignLease(tenantIDs, startDate, endDate, 3, 3);
+		
 		s = new Scanner(System.in);
 		ui = new UserInterface();
 		userApi = UserAPI.getInstance();

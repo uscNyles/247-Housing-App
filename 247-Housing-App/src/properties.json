@@ -25,7 +25,7 @@
 		"payments": ["Credit", "Debit", "Check", "Cash"]
     }, {
         "id": 3,
-        "owner": 2,
+        "owner": 4,
 		"name": "Some Place",
 		"zip": 29201,
 		"address": "300 Main Street",
@@ -37,7 +37,7 @@
 		"payments": ["Credit", "Debit", "Check", "Cash"]
     }, {
 		"id": 4,
-		"owner": 2,
+		"owner": 4,
 		"name": "Some Other Place",
 		"zip": 29201,
 		"address": "69 Boogerbranch Drive",

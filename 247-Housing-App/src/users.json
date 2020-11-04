@@ -35,4 +35,15 @@
  	"uscid": "A87651234",
  	"favorites": [2],
  	"properties": [2]
+ }, {
+ 	"id": 4,
+ 	"username": "testSeller1",
+ 	"password": "testSeller1Pass",
+ 	"email": "testSeller1@email.sc.edu",
+ 	"phone": "8348621864",
+ 	"name": "Test Seller",
+ 	"bio": "Computer Science and Math Major at UofSC, class of 2023",
+ 	"contacts": ["Github: https://github.com/danielViolist"],
+ 	"type": "S",
+ 	"properties": [5]
  }]
