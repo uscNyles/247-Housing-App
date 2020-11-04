@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -75,11 +76,11 @@ public class UserInterface {
 		System.out.println();
 		Property prop = null;
 		if (Main.renter != null)
-			prop = new Property(Main.renter.getUserID(), name, address, city, state, zipCode, description);
+			prop = new Property(Main.renter.getUserID(), name, address, zipCode, city, state, description);
 		else if (Main.seller != null)
-			prop = new Property(Main.seller.getUserID(), name, address, city, state, zipCode, description);
+			prop = new Property(Main.seller.getUserID(), name, address, zipCode, city, state, description);
 		else if (Main.rea != null)
-			prop = new Property(Main.rea.getUserID(), name, address, city, state, zipCode, description);
+			prop = new Property(Main.rea.getUserID(), name, address, zipCode, city, state, description);
 		System.out.print("How many rooms would you like to add to this property? ");
 		int choice = s.nextInt();
 		System.out.println();
@@ -149,6 +150,38 @@ public class UserInterface {
 					break;
 				}
 			}
+			int[] selections = new int[4];
+			System.out.println("\t1. Cash"
+			         + "\n\t2. Check"
+			         + "\n\t3. Credit"
+			         + "\n\t4. Debit");
+			System.out.println("Please select all the available payment types (enter each number with a space separating them): ");
+			for (int j = 0; j < selections.length; j++) {
+				if (s.hasNextInt()) {
+					selections[j] = s.nextInt();
+					if (selections[j] < 1 || selections[j] > 4) {
+						System.out.println("Invalid number entered. Try again.");
+						j--;
+					}
+				} else {
+					break;
+				}
+			}
+			ArrayList<PaymentType> payTypes = new ArrayList<PaymentType>();
+			for (int j = 0; j < selections.length; j++) {
+				if (selections[j] == 1) {
+					payTypes.add(PaymentType.CASH);
+				} else if (selections[j] == 2) {
+					payTypes.add(PaymentType.CHECK);
+				} else if (selections[j] == 3) {
+					payTypes.add(PaymentType.CREDIT);
+				} else if (selections[j] == 4) {
+					payTypes.add(PaymentType.DEBIT);
+				}
+			}
+			for (PaymentType payt : payTypes) {
+				prop.addPaymentType(payt);
+			}
 			System.out.print("Is the property available to sublease (enter 'yes' or 'no'): ");
 			String subLease = s.next();
 			s.nextLine();
@@ -191,25 +224,34 @@ public class UserInterface {
 				}
 				continue;
 			}
-			room:
 			for(Room r : p.getRooms()) {
+				boolean hasBeds = false;
+				boolean hasBaths = false;
+				boolean hasAmenity = false;
+				if(searchQuery.contains("bed ")) {
+					int location = searchQuery.indexOf("bed ");
+					int beds = Integer.parseInt(searchQuery.charAt(location - 2) + "");
+					if(r.getBeds() == beds) {
+						hasBeds = true;
+					}
+				} else {
+					hasBeds = true;
+				}
+				if(searchQuery.contains("bath ")) {
+					int location = searchQuery.indexOf("bath ");
+					int baths = Integer.parseInt(searchQuery.charAt(location - 2) + "");
+					if(r.getBaths() == baths) {
+						hasBaths = true;
+					}
+				} else {
+					hasBaths = true;
+				}
 				for(String s : r.getAmenities()) {
 					if(searchQuery.contains(s.toLowerCase())) {
-						if(!ret.contains(p)) {
-							ret.add(p);
-						}
-						break room;
+						hasAmenity = true;
 					}
 				}
-				for(String s : r.getBonuses()) {
-					if(searchQuery.contains(s.toLowerCase())) {
-						if(!ret.contains(p)) {
-							ret.add(p);
-						}
-						break room;
-					}
-				}
-				if(searchQuery.contains(r.getBaths() + "") || searchQuery.contains(r.getBeds() + "") || searchQuery.contains(r.getCondition().toLowerCase())) {
+				if(hasBeds && hasBaths && hasAmenity) {
 					if(!ret.contains(p)) {
 						ret.add(p);
 					}
@@ -233,6 +275,7 @@ public class UserInterface {
 		for(Property prop : Main.renter.getFavorites()) {
 			if(prop.getID() == id) {
 				Main.renter.removeFavorite(prop);
+				Main.userApi.createRenter(Main.renter);
 				return;
 			}
 		}
@@ -243,9 +286,74 @@ public class UserInterface {
 		for (Property prop : Main.propertyApi.getProperties()) {
 			if (prop.getID() == propertyID) {
 				Main.renter.addFavorite(prop);
+				Main.userApi.createRenter(Main.renter);
 				return;
 			}
 		}
 	}
 	
+	public void rent() throws FileNotFoundException {
+		System.out.println("Please enter the ID of the room you wish to rent.");
+		boolean cont = true;
+		int roomID = 0;
+		while(cont) {
+			System.out.print("Selection: ");
+			roomID = s.nextInt();
+			s.nextLine();
+			if(DataReader.roomExists(roomID) && !DataReader.getRoom(roomID).isLeased()) {
+				cont = false;
+			}
+		}
+		System.out.println("Please enter the ID of a user you would like to sign the lease with (enter -1 you don't want to sign a lease with someone else).");
+		cont = true;
+		int roommateID = 0;
+		while(cont) {
+			System.out.print("Selection: ");
+			roommateID = s.nextInt();
+			s.nextLine();
+			if(roommateID == -1) {
+				break;
+			} else if(DataReader.userExists(roommateID)) {
+				cont = false;
+			}
+			if(cont = true) {
+				System.out.println("Please enter a valid user ID.");
+			}
+		}
+		ArrayList<Integer> tenantIDs = new ArrayList<Integer>();
+		tenantIDs.add(Main.renter.getUserID());
+		if (roommateID > 0)
+			tenantIDs.add(roommateID);
+		int propertyID = 0;
+		ArrayList<Property> allProperties = Main.propertyApi.getProperties();
+		boolean breakCondition = false;
+		for(Property prop : allProperties) {
+			for(Room room : prop.getRooms()) {
+				if(room.getRoomID() == roomID) {
+					propertyID = prop.getID();
+					breakCondition = true;
+					break;
+				}
+			}
+			if(breakCondition) {
+				break;
+			}
+		}
+		System.out.println("When do you want your lease to begin? Please enter it in the format MM/DD/YY.");
+		System.out.print("Date: ");
+		String date = s.nextLine();
+		int month = Integer.parseInt(date.substring(0, 1));
+		int day = Integer.parseInt(date.substring(3, 4));
+		int year = Integer.parseInt(date.substring(6, 7));
+		Date startDate = new Date(month, day, year);
+		System.out.println("When do you want your lease to end? Please enter it in the format MM/DD/YY.");
+		System.out.print("Date: ");
+		date = s.nextLine();
+		month = Integer.parseInt(date.substring(0, 1));
+		day = Integer.parseInt(date.substring(3, 4));
+		year = Integer.parseInt(date.substring(6, 7));
+		Date endDate = new Date(month, day, year);
+		System.out.println("Generating SignedLease.txt");
+		LeaseWriter.SignLease(tenantIDs, startDate, endDate, propertyID, roomID);
+	}
 }

@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ public class Main {
 	protected static ReviewAPI reviewApi;
 	
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		s = new Scanner(System.in);
 		ui = new UserInterface();
 		userApi = UserAPI.getInstance();
@@ -42,7 +43,7 @@ public class Main {
 					System.out.println();
 					currentUserType = ui.userLogin(username, password);
 					if (currentUserType == -1) {
-						System.out.println("Error: Invalid credentials were entered. Please try again.");
+						System.out.println("Error: Invalid credentials were entered.");
 					}
 				}
 				switch (currentUserType) {
@@ -91,9 +92,10 @@ public class Main {
 /******************************************************
  * These are the main functions that run the program. *
  * They shouldn't end until the user decides to       *
- * leave/exit the program.                            *
+ * leave/exit the program.                            
+ * @throws FileNotFoundException *
  ******************************************************/
-	public static void runRenter() {
+	public static void runRenter() throws FileNotFoundException {
 		int choice;
 		if (renter.getSeller() == null) {
 			// NOT a renter/seller
@@ -114,7 +116,7 @@ public class Main {
 						System.out.println("\nNo properties found!\n");
 					}
 					if (results.size() > 0) {
-						for (Property prop : rea.getListings()) {
+						for (Property prop : results) {
 							System.out.println("\n*************************************************************\n"
 									         + prop);
 						}
@@ -122,6 +124,7 @@ public class Main {
 					break;
 				case 2: //TODO
 					//Rent
+					ui.rent();
 					break;
 				case 3:
 					//Add to favorites
@@ -164,8 +167,7 @@ public class Main {
 					s.nextLine();
 					if (response.equals("YES")) {
 						userApi.deleteUser(renter.getUserID());
-						System.out.println("You account has been deleted."
-								         + "\nThe system is now restarting.");
+						System.out.println("You account has been deleted.");
 						ui.outputMenu("leave");
 						System.exit(0);
 					}
@@ -206,6 +208,7 @@ public class Main {
 					break;
 				case 2: //TODO
 					//Rent
+					ui.rent();
 					break;
 				case 3:
 					//List a property
@@ -276,8 +279,7 @@ public class Main {
 					s.nextLine();
 					if (response.equals("YES")) {
 						userApi.deleteUser(renter.getUserID());
-						System.out.println("You account has been deleted."
-								         + "\nThe system is now restarting.");
+						System.out.println("You account has been deleted.");
 						ui.outputMenu("leave");
 						System.exit(0);
 					}
@@ -355,8 +357,7 @@ public class Main {
 				s.nextLine();
 				if (response.equals("YES")) {
 					userApi.deleteUser(seller.getUserID());
-					System.out.println("You account has been deleted."
-							         + "\nThe system is now restarting.");
+					System.out.println("You account has been deleted.");
 					ui.outputMenu("leave");
 					System.exit(0);
 				}
@@ -433,8 +434,7 @@ public class Main {
 				s.nextLine();
 				if (response.equals("YES")) {
 					userApi.deleteUser(rea.getUserID());
-					System.out.println("You account has been deleted."
-							         + "\nThe system is now restarting.");
+					System.out.println("You account has been deleted.");
 					ui.outputMenu("leave");
 					System.exit(0);
 				}
