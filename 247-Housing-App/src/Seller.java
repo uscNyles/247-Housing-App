@@ -9,13 +9,38 @@ public class Seller extends User {
 		this.properties = properties;
 	}
 	
-	public void addProperty(String address, String zipCode, String city, String state, String description, String condition,
-			int roomNumber, ArrayList<String> amenities, double price, PropertyType propertyType) {
-		Property temp = new Property(this, address,  zipCode,  city,  state,  description,  condition, roomNumber, amenities, price, propertyType);
-		properties.add(temp);
+	public Seller(Renter renter) {
+		super(renter.getUsername(), renter.getPassword(), renter.getEmail(), renter.getUserID(), renter.getPhoneNumber(), renter.getName(), renter.getBio());
+		properties = new ArrayList<Property>();
+	}
+	
+	public void addProperty(String name, String address, String zipCode, String city, String state, String description, String condition, int roomNumber, ArrayList<String> amenities, double price, PropertyType propertyType) {
+		properties.add(new Property(this.getUserID(), name, address,  zipCode,  city,  state,  description));
+		Main.userApi.createSeller(this);
+	}
+	
+	public void addProperty(Property property) {
+		properties.add(property);
+		Main.userApi.createSeller(this);
+	}
+	
+	public void addPropertyDB(Property property) {
+		properties.add(property);
 	}
 	
 	public ArrayList<Property> getProperties() {
 		return properties;
+	}
+	
+	public String showProperties() {
+		String ret = this.getName() + "'s Properties:\n";
+		for (Property property : properties) {
+			ret += property.toString() + "\n====================================================================\n\n";
+		}
+		return ret;
+	}
+	
+	public boolean equals(Seller seller) {
+		return this.getName().equals(seller.getName());
 	}
 }

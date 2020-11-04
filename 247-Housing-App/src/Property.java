@@ -2,42 +2,73 @@ import java.util.ArrayList;
 
 public class Property {
 	
-	private Seller seller;
+	private int seller;
 	private String address;
 	private String zipCode;
 	private String city;
 	private String state;
 	private String description;
-	private String condition;
-	private int roomNumber;
-	private ArrayList<String> amenities;
-	private double price;
 	private ArrayList<Review> reviews;
-	private PropertyType propertyType;
+	private ArrayList<Room> rooms;
 	private int propertyID;
 	private String name;
-	private boolean canSubLease;
-	private Lease lease;
-	private ArrayList<PaymentType> acceptedPayments;
-	private boolean isLeased;
+	private ArrayList<PaymentType> acceptedPayments;	 
 	
-	public Property(Seller seller, String address, String zipCode, String city, String state, String description, String condition,
-			int roomNumber, ArrayList<String> amenities, double price, PropertyType propertyType) {
+	public Property(int seller, String name, String address, String zipCode, String city, String state, String description) {
+		this.name = name;
 		this.seller = seller;
 		this.address = address;
 		this.zipCode = zipCode;
 		this.city = city;
 		this.state = state;
 		this.description = description;
-		this.condition = condition;
-		this.roomNumber = roomNumber;
-		this.amenities = amenities;
-		this.price = price;
-		this.propertyType = propertyType;
-		lease = null;
-		this.isLeased = false;
+		reviews = new ArrayList<Review>();
+		rooms = new ArrayList<Room>();
+		acceptedPayments = new ArrayList<PaymentType>();
+		this.propertyID = Main.propertyApi.getNewPropertyID();
 	}
+	
+	// To be used by the DB:
+	public Property(int seller, String name, String address, String zipCode, String city, String state, String description, int id) {
+		this.name = name;
+		this.seller = seller;
+		this.address = address;
+		this.zipCode = zipCode;
+		this.city = city;
+		this.state = state;
+		this.description = description;
+		reviews = new ArrayList<Review>();
+		rooms = new ArrayList<Room>();
+		acceptedPayments = new ArrayList<PaymentType>();
+		propertyID = id;
+	}
+
+	public String toString() {
+		String ret = "Name: " + name + "\nID: " + propertyID + "\n\tSeller: " + DataReader.getUser(seller).getName()
+				   + "\n\tAddress: " + address + ", " + city + ", " + state + ", " + zipCode
+				   + "\n\tDescription: " + description
+				   + "\n\tRentable spaces:";
+		for (int i = 0; i < rooms.size(); i++) {
+			ret += "\n*************************************************************\n\t"
+					+ (i+1) + ". \n" + rooms.get(i).toString();
+		}
+		ret += "\n*************************************************************";
+		return ret;
+	}
+	
+	public boolean equals(Property property) {
+		return DataReader.getUser(this.seller).equals(property.getSeller()) && this.getAddress().equals(property.getAddress()); 
+	}
+	
 // =========================================================================================================================
+	public Seller getSeller() {
+		return (Seller)DataReader.getUser(seller);
+	}
+	
+	public int getSellerID() {
+		return seller;
+	}
+	
 	public ArrayList<PaymentType> getAcceptedPayments() {
 		return acceptedPayments;
 	}
@@ -48,22 +79,11 @@ public class Property {
 	
 	public void setName(String name) {
 		this.name = name;
+		Main.propertyApi.createProperty(this);
 	}
 	
 	public int getID() {
 		return propertyID;
-	}
-	
-	public void setPropertyID(int id) {
-		//TODO
-	}
-	
-	public boolean canSubLease() {
-		return canSubLease;
-	}
-	
-	public boolean isLeased() {
-		return isLeased;
 	}
 
 	public String getAddress() {
@@ -72,6 +92,7 @@ public class Property {
 
 	public void setAddress(String address) {
 		this.address = address;
+		Main.propertyApi.createProperty(this);
 	}
 
 	public String getZipCode() {
@@ -80,6 +101,7 @@ public class Property {
 
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
+		Main.propertyApi.createProperty(this);
 	}
 
 	public String getCity() {
@@ -88,6 +110,7 @@ public class Property {
 
 	public void setCity(String city) {
 		this.city = city;
+		Main.propertyApi.createProperty(this);
 	}
 
 	public String getState() {
@@ -96,6 +119,7 @@ public class Property {
 
 	public void setState(String state) {
 		this.state = state;
+		Main.propertyApi.createProperty(this);
 	}
 
 	public String getDescription() {
@@ -104,70 +128,24 @@ public class Property {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getCondition() {
-		return condition;
-	}
-
-	public void setCondition(String condition) {
-		this.condition = condition;
-	}
-
-	public int getRoomNumber() {
-		return roomNumber;
-	}
-
-	public void setRoomNumber(int roomNumber) {
-		this.roomNumber = roomNumber;
-	}
-
-	public ArrayList<String> getAmenities() {
-		return amenities; 
-	}
-
-	public void setAmenities(String amenities) {
-		this.amenities.add(amenities);
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
+		Main.propertyApi.createProperty(this);
 	}
 
 	public ArrayList<Review> getReviews() {
 		return reviews;
 	}
-
-	public PropertyType getPropertyType() {
-		return propertyType; 
-	}
-
-	public void setPropertyType(PropertyType propertyType) {
-		this.propertyType = propertyType;
-	}
 	
-	public String getLease() {
-		return lease.toString() + "\nLessor: " + seller.getName();
+	public void setPropertyID(int id) {
+		propertyID = id;
+		Main.propertyApi.createProperty(this);
 	}
 	
 // ====================================================================================================================
-	public boolean createLease(Renter renter, Date startDate, Date endDate) {
-		if (!isLeased) {
-			lease = new Lease(renter, startDate, endDate);
-			isLeased = true;
-			return true;
-		} 
-		return false;
-	}
-	
-	public boolean removeReveiw(Renter renter) {
+	public boolean removeReview(Renter renter) {
 		for (Review review: reviews) {
 			if (review.getAuthor().equalsIgnoreCase(renter.getName())) {
 				reviews.remove(review);
+				Main.propertyApi.createProperty(this);
 				return true;
 			}
 		}
@@ -181,7 +159,26 @@ public class Property {
 			}
 		}
 		reviews.add(review);
+		Main.propertyApi.createProperty(this);
 		return true;
+	}
+	
+	public boolean addReviewDB(Review review){
+		for (Review rev : reviews) {
+			if (review.equals(rev)) /* This checks if there is already a review with the same author */{
+				return false;
+			}
+		}
+		reviews.add(review);
+		return true;
+	}
+	
+	public void addRoomDB(Room r) {
+		this.rooms.add(r);
+	}
+	
+	public ArrayList<Room> getRooms() {
+		return this.rooms;
 	}
 	
 	public boolean addPaymentType(PaymentType type) {
@@ -191,16 +188,17 @@ public class Property {
 			}
 		}
 		acceptedPayments.add(type);
+		Main.propertyApi.createProperty(this);
 		return true;
 	}
 	
-	public boolean addAmenitiy(String amenity) {
-		for (String ameni : amenities) {
-			if (amenity.equalsIgnoreCase(ameni)) {
+	public boolean addPaymentTypeDB(PaymentType type) {
+		for (PaymentType payment : acceptedPayments) {
+			if (type == payment) {
 				return false;
 			}
 		}
-		amenities.add(amenity);
+		acceptedPayments.add(type);
 		return true;
 	}
 
