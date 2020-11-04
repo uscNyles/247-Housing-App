@@ -118,6 +118,8 @@ public class Main {
 				// List a property
 				// Need help with this. 
 				// See runREA comments in case 2.
+				createProperty();
+				
 				break;
 			case 3:
 				// Show own's listings
@@ -152,9 +154,11 @@ public class Main {
 				ui.searchProperties(search);
 				break;
 			case 2:
+				System.out.print(rea.showListings());
 				// List a property
 				// Need help with this por favor
 				// Needs to be like how it is described in the scenario (create a property, then add rooms to it)
+				System.out.print(rea.showListings());
 				break;
 			case 3:
 				// Show their own listings
@@ -266,4 +270,19 @@ public class Main {
 			}
 		}
 	}
+	
+	public static void createProperty() {
+				ui.outputMenu("addProperty");
+		ui.createProperty(seller);
+		System.out.println("Current Properties: ");
+		seller.getProperties().get(seller.getProperties().size()-1);
+	}
+	
+	public static void listAProperty() {
+		ui.outputMenu("createListings");
+
+		
+	}
+	
+	
 }

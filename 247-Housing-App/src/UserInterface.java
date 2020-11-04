@@ -44,6 +44,9 @@ public class UserInterface {
 		} else if (menu.equals("renterselleroptions")) {
 			System.out.println(menus.getRenterSellerOptions());
 		}
+		else if (menu.contentEquals("createListings")) {
+			System.out.println(menus.getCreateListing());
+		}
 	}
 
 	public int userLogin(String username, String password) {
@@ -57,7 +60,7 @@ public class UserInterface {
 	}
 
 	//NEED TO MAKE THIS CREATE ROOMS AS WELL -> CURRENTLY ONLY CREATES A PROPERTY
-	public void addProperty(Seller sellerUser) {
+	public void createProperty(Seller sellerUser) {
 		System.out.println("Name:");
 		String name = s.nextLine();
 		System.out.println("Street Address:");
@@ -111,7 +114,7 @@ public class UserInterface {
 			}
 		}
 
-		Main.propertyApi.createProperty(new Property(sellerUser.getUserID(), address, city, state, zipCode, description));
+		Main.propertyApi.createProperty(new Property(sellerUser.getUserID(), name, address, city, state, zipCode, description));
 	}
 	
 	public void searchProperties(String searchQuery) {
