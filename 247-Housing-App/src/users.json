@@ -1,1 +1,38 @@
-[{"favorites":[1],"password":"sup3rS3cure","phone":"8465123456","uscid":"A64236897","name":"Colin Anderson","bio":"Computer Science and Math Major at UofSC, class of 2023","id":1,"type":"R","email":"colinsa@email.sc.edu","contacts":["Github: https:\/\/github.com\/cSwiggitySwooty"],"username":"cSwiggitySwooty"},{"listings":[1,3,4],"password":"2kewl4u","agency":"Big Brain Buying","phone":"8348621864","name":"Daniel Rochester","bio":"Computer Science and Math Major at UofSC, class of 2023","id":2,"type":"RE","email":"rochesw@email.sc.edu","contacts":["Github: https:\/\/github.com\/danielViolist"],"username":"danielViolist"},{"favorites":[2],"password":"c4nth4ckm3","phone":"8465123456","uscid":"A87651234","name":"Nyles Geiger","bio":"Computer Science Major at UofSC","id":3,"type":"RS","email":"ngeiger@email.sc.edu","contacts":["Github: https:\/\/github.com\/uscNyles"],"properties":[2],"username":"ngeiger"},{"password":"testeSeller1Password","phone":"8033970491","name":"testeSeller1Name","bio":"Just here to sell sum","id":1330412385,"type":"S","email":"testeSeller1Email","contacts":[],"properties":[],"username":"testeSeller1Username"},{"password":"TestSeller1Password","phone":"8432605703","name":"TestSeller1name","bio":"TestSeller1Bio","id":155738272,"type":"S","email":"TestSeller1Email","contacts":[],"properties":[],"username":"TestSeller1Username"}]
+ [{
+ 	"id": 1,
+ 	"username": "cSwiggitySwooty",
+ 	"password": "sup3rS3cure",
+ 	"email": "colinsa@email.sc.edu",
+ 	"phone": "8465123456",
+ 	"name": "Colin Anderson",
+ 	"bio": "Computer Science and Math Major at UofSC, class of 2023",
+ 	"contacts": ["Github: https://github.com/cSwiggitySwooty"],
+ 	"type": "R",
+ 	"uscid": "A64236897",
+ 	"favorites": [1]
+ }, {
+ 	"id": 2,
+ 	"username": "danielViolist",
+ 	"password": "2kewl4u",
+ 	"email": "rochesw@email.sc.edu",
+ 	"phone": "8348621864",
+ 	"name": "Daniel Rochester",
+ 	"bio": "Computer Science and Math Major at UofSC, class of 2023",
+ 	"contacts": ["Github: https://github.com/danielViolist"],
+ 	"type": "RE",
+ 	"agency": "Big Brain Buying",
+ 	"listings": [1, 3, 4]
+ }, {
+ 	"id": 3,
+ 	"username": "ngeiger",
+ 	"password": "c4nth4ckm3",
+ 	"email": "ngeiger@email.sc.edu",
+ 	"phone": "8465123456",
+ 	"name": "Nyles Geiger",
+ 	"bio": "Computer Science Major at UofSC",
+ 	"contacts": ["Github: https://github.com/uscNyles"],
+ 	"type": "RS",
+ 	"uscid": "A87651234",
+ 	"favorites": [2],
+ 	"properties": [2]
+ }]

@@ -1,73 +1,51 @@
-[{
-	"owner": 2,
-	"zip": 29201,
-	"address": "211 Main Street",
-	"reviews": [1],
-	"city": "Columbia",
-	"payments": ["Credit", "Debit", "Cash"],
-	"name": "The Lofts",
-	"description": "The Lofts is cool. Live here! (easy ethernet not included)",
-	"id": 1,
-	"state": "SC",
-	"properties": [1, 6]
-}, {
-	"owner": 3,
-	"zip": 29201,
-	"address": "211 Some Street",
-	"reviews": [2],
-	"city": "Columbia",
-	"payments": ["Credit", "Debit", "Check", "Cash"],
-	"name": "Nyles's Places",
-	"description": "The best place to live!",
-	"id": 2,
-	"state": "SC",
-	"properties": [2]
-}, {
-	"owner": 2,
-	"zip": 29201,
-	"address": "300 Main Street",
-	"reviews": [],
-	"city": "Columbia",
-	"payments": ["Credit", "Debit", "Check", "Cash"],
-	"name": "Some Place",
-	"description": "This is a cool place. Live here.",
-	"id": 3,
-	"state": "SC",
-	"properties": [3, 5]
-}, {
-	"owner": 2,
-	"zip": 29201,
-	"address": "69 Boogerbranch Drive",
-	"reviews": [],
-	"city": "Seneca",
-	"payments": ["Credit", "Debit", "Check", "Cash"],
-	"name": "Some Other Place",
-	"description": "BOOGERS BABY",
-	"id": 4,
-	"state": "SC",
-	"properties": [4]
-}, {
-	"owner": 1330412385,
-	"zip": "29016",
-	"address": "testProperty1Address",
-	"reviews": [],
-	"city": "testProperty1City",
-	"payments": ["CASH"],
-	"name": "testProperty1Name",
-	"description": "testProperty1Description",
-	"id": 552788560,
-	"state": "SC",
-	"properties": []
-}, {
-	"owner": 155738272,
-	"zip": "29016",
-	"address": "testProperty1Address",
-	"reviews": [],
-	"city": "Columbia",
-	"payments": ["CASH"],
-	"name": "testProperty1Name",
-	"description": "testProperty1Description",
-	"id": 742815861,
-	"state": "Sc",
-	"properties": []
-}]
+[
+    {
+        "id": 1,
+        "owner": 2,
+		"name": "The Lofts",
+		"address": "211 Main Street",
+		"zip": 29201,
+		"city": "Columbia",
+		"state": "SC",
+		"description": "The Lofts is cool. Live here! (easy ethernet not included)",
+		"reviews": [1],
+		"properties": [1, 6],
+		"payments": ["Credit", "Debit", "Cash"]
+    },{
+        "id": 2,
+        "owner": 3,
+		"name": "Nyles's Places",
+		"address": "211 Some Street",
+		"zip": 29201,
+		"city": "Columbia",
+		"state": "SC",
+		"description": "The best place to live!",
+		"reviews": [2],
+		"properties": [2],
+		"payments": ["Credit", "Debit", "Check", "Cash"]
+    }, {
+        "id": 3,
+        "owner": 2,
+		"name": "Some Place",
+		"zip": 29201,
+		"address": "300 Main Street",
+		"city": "Columbia",
+		"state": "SC",
+		"description": "This is a cool place. Live here.",
+		"reviews": [],
+		"properties": [3, 5],
+		"payments": ["Credit", "Debit", "Check", "Cash"]
+    }, {
+		"id": 4,
+		"owner": 2,
+		"name": "Some Other Place",
+		"zip": 29201,
+		"address": "69 Boogerbranch Drive",
+		"city": "Seneca",
+		"state": "SC",
+		"description": "BOOGERS BABY",
+		"reviews": [],
+		"properties": [4],
+		"payments": ["Credit", "Debit", "Check", "Cash"]
+	}
+]
