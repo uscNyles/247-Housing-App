@@ -54,6 +54,7 @@ public class UserInterface {
 		}
 	}
 
+<<<<<<< HEAD
 	public void addProperty() {
 		System.out.print("Name: ");
 		String name = s.nextLine();
@@ -176,6 +177,25 @@ public class UserInterface {
 			Main.seller.addProperty(prop);
 		else if (Main.rea != null)
 			Main.rea.listProperty(prop);
+=======
+	//NEED TO MAKE THIS CREATE ROOMS AS WELL -> CURRENTLY ONLY CREATES A PROPERTY
+	public void addProperty(Seller sellerUser) {
+		System.out.println("Name: ");
+		String name = s.nextLine();
+		System.out.println("Street Address: ");
+		String address = s.nextLine();
+		System.out.println("Zip Code: ");
+		String zipCode = s.nextLine();
+		System.out.println("City: ");
+		String city = s.nextLine();
+		System.out.println("State: ");
+		String state = s.nextLine();
+		System.out.println("Description: ");
+		String description = s.nextLine();
+		Property p = new Property(sellerUser.getUserID(), name, address, city, state, zipCode, description);
+		p.setName(name);
+		Main.propertyApi.createProperty(p);
+>>>>>>> branch 'main' of https://github.com/uscNyles/247-Housing-App.git
 	}
 	
 	public ArrayList<Property> searchProperties(String query) {
@@ -225,6 +245,7 @@ public class UserInterface {
 		}
 	}
 
+<<<<<<< HEAD
 	public void removeListing(int id) {
 		Main.propertyApi.deleteProperty(id);
 	}
@@ -246,6 +267,61 @@ public class UserInterface {
 				return;
 			}
 		}
+=======
+	public void removeProperty() {
+		System.out.println("Please enter the id of the property you wish to remove: ");
+		if(Main.renter == null) {
+			for(Property p : Main.seller.getProperties()) {
+				System.out.println(p.toString());
+			}
+			int id = s.nextInt();
+			s.nextLine();
+			Main.propertyApi.deleteProperty(id);
+			return;
+		}
+		for(Property p : Main.renter.getSeller().getProperties()) {
+			System.out.println(p.toString());
+		}
+		int id = s.nextInt();
+		s.nextLine();
+		Main.propertyApi.deleteProperty(id);
+	}
+
+	public void removeListing(int id) {
+		Main.propertyApi.deleteProperty(id);
+	}
+	
+	public void removeFavorite(int id) {
+		for(Property prop : Main.renter.getFavorites()) {
+			if(prop.getID() == id) {
+				Main.renter.removeFavorite(prop);
+				return;
+			}
+		}
+		System.out.println("That property is not in your favorites.");
+	}
+	
+	public void addToFavorites(int propertyID) {
+		for (Property prop : Main.propertyApi.getProperties()) {
+			if (prop.getID() == propertyID) {
+				Main.renter.addFavorite(prop);
+				return;
+			}
+		}
+	}
+	
+	public void signLease(int userId) {
+		
+		ArrayList<Integer> tenantIDs = new ArrayList<Integer>();
+		tenantIDs.add(userId);
+		
+		System.out.println("Will you be signing this lease with another tenant? "
+				+ "\n(Their uscId will be required)");
+		System.out.println("\t0. I will sign a lease by myself");
+		String multipleSigners = s.nextLine();
+		
+		
+>>>>>>> branch 'main' of https://github.com/uscNyles/247-Housing-App.git
 	}
 	
 }

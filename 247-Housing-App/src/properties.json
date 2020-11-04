@@ -25,6 +25,7 @@
 		"payments": ["Credit", "Debit", "Check", "Cash"]
     }, {
         "id": 3,
+<<<<<<< HEAD
         "owner": 4,
 		"name": "Some Place",
 		"zip": 29201,
@@ -48,4 +49,16 @@
 		"properties": [4],
 		"payments": ["Credit", "Debit", "Check", "Cash"]
 	}
+=======
+        "owner": 2,
+		"name": "Some Place",
+		"zip": 29201,
+		"city": "Columbia",
+		"state": "SC",
+		"description": "This is a cool place. Live here.",
+		"reviews": [],
+		"properties": [3],
+		"payments": ["Credit", "Debit", "Check", "Cash"]
+    }
+>>>>>>> branch 'main' of https://github.com/uscNyles/247-Housing-App.git
 ]

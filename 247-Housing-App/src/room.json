@@ -23,6 +23,7 @@
 		"type": "apartment",
 		"canSubLease": 0,
 		"isLeased": 0
+<<<<<<< HEAD
 	},{
 		"id": 3,
 		"condition": "excellent",
@@ -53,6 +54,15 @@
 		"room": 344,
 		"bed": 2,
 		"bath": 1,
+=======
+	}
+	,{
+		"id": 3,
+		"condition": "excellent",
+		"room": 343,
+		"bed": 2,
+		"bath": 2,
+>>>>>>> branch 'main' of https://github.com/uscNyles/247-Housing-App.git
 		"amenities": ["Bathroom", "Kitchen"],
 		"perks": ["Pets", "Walk2Campus"],
 		"price": 1000.00,

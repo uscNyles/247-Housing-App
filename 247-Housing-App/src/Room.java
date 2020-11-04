@@ -31,6 +31,7 @@ public class Room {
 	public String toString() {
 		//TODO - Make a toString function
 		String ret = "Room Information: "
+<<<<<<< HEAD
 				+ "\n\t\tRoom Number: " + roomNumber
 				+ "\n\t\tBed Count: " + beds
 				+ "\n\t\tBath Count: " + baths
@@ -47,6 +48,25 @@ public class Room {
 			+ "\n\t\tCan sub-lease: " + canSubLease 
 			+ "\n\t\tCurrently Leased: " + isLeased
 			+ "\n\t\tPrice per month: " + price;
+=======
+				+ "\n\tRoom ID: " + roomID
+				+ "\n\tRoom Number: " + roomNumber
+				+ "\n\tBed Count: " + beds
+				+ "\n\tBath Count: " + baths
+				+ "\n\tCondition: " + condition
+				+ "\n\tAmenities:\n";
+		for (String amenity : amenities) {
+			ret += "\t\t- " + amenity + "\n";
+		}
+		ret += "\tBonuses:\n";
+		for (String bonus : bonuses) {
+			ret += "\t\t- " + bonus + "\n";
+		}
+		ret += "\tProperty Type: " + propertyType.toString() 
+			+ "\n\tCan sub-lease: " + canSubLease 
+			+ "\n\tCurrently Leased: " + isLeased
+			+ "\n\tPrice per month: " + price;
+>>>>>>> branch 'main' of https://github.com/uscNyles/247-Housing-App.git
 		return  ret;
 	}
 	
