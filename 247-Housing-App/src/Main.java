@@ -1,6 +1,3 @@
-
-
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,19 +12,9 @@ public class Main {
 	protected static RoomAPI roomApi;
 	protected static UserAPI userApi;
 	protected static ReviewAPI reviewApi;
-	private static LeaseWriter lw;
 	
 
-	public static void main(String[] args) throws FileNotFoundException {
-		lw = new LeaseWriter();
-		ArrayList<Integer>  tenantIDs = new ArrayList<Integer>();
-		tenantIDs.add(1);
-		tenantIDs.add(2);
-		Date startDate = new Date(1,16,2020);
-		Date endDate = new Date(5,23,2023);
-		
-		lw.SignLease(tenantIDs, startDate, endDate, 3, 3);
-		
+	public static void main(String[] args) {
 		s = new Scanner(System.in);
 		ui = new UserInterface();
 		userApi = UserAPI.getInstance();
@@ -110,10 +97,9 @@ public class Main {
 		int choice;
 		if (renter.getSeller() == null) {
 			// NOT a renter/seller
-			ui.outputMenu("renteroptions");
 			while(true) {
 				ui.outputMenu("renteroptions");
-				System.out.println("Enter selection: ");
+				System.out.print("Enter selection: ");
 				int selection = s.nextInt();
 				System.out.println();
 				s.nextLine();
@@ -223,7 +209,7 @@ public class Main {
 					break;
 				case 3:
 					//List a property
-					ui.addPropertyRenter();
+					ui.addProperty();
 					System.out.println("Your property listing has been added!");
 					break;
 				case 4:
@@ -234,8 +220,20 @@ public class Main {
 					}
 					System.out.println("\n*************************************************************\n");
 					break;
-				case 5: //TODO
-					//Remove a listed property
+				case 5:
+					// Remove a listing
+					System.out.println("Please enter the propert ID of the property to remove."
+							         + "\nIf you do not know the ID, enter -1 to cancel, then view your listings which has the IDs listed."
+							         + "\nWarning: If you delete a property all of the property's data will not be recoverable!");
+					System.out.print("ID: ");
+					choice = s.nextInt();
+					s.nextLine();
+					System.out.println();
+					if (choice < 0) {
+						break;
+					}
+					ui.removeListing(choice);
+					System.out.println("If that property was in your listings, it has been deleted.\n");
 					break;
 				case 6:
 					// Add a favorite
@@ -322,7 +320,7 @@ public class Main {
 				break;
 			case 2: 
 				// List a property
-				ui.addPropertySeller();
+				ui.addProperty();
 				System.out.println("Your property listing has been added!");
 				break;
 			case 3: 
@@ -333,8 +331,20 @@ public class Main {
 				}
 				System.out.println("\n*************************************************************\n");
 				break;
-			case 4: //TODO
-				//Remove property
+			case 4: 
+				// Remove a listing
+				System.out.println("Please enter the propert ID of the property to remove."
+						         + "\nIf you do not know the ID, enter -1 to cancel, then view your listings which has the IDs listed."
+						         + "\nWarning: If you delete a property all of the property's data will not be recoverable!");
+				System.out.print("ID: ");
+				int choice = s.nextInt();
+				s.nextLine();
+				System.out.println();
+				if (choice < 0) {
+					break;
+				}
+				ui.removeListing(choice);
+				System.out.println("If that property was in your listings, it has been deleted.\n");
 				break;
 			case 5:
 				// Delete account
@@ -386,9 +396,9 @@ public class Main {
 					}
 				}
 				break;
-			case 2: //TODO
+			case 2:
 				// List a property
-				ui.addPropertyREA();
+				ui.addProperty();
 				System.out.println("Your property listing has been added!");
 				break;
 			case 3:
@@ -399,8 +409,20 @@ public class Main {
 				}
 				System.out.println("\n*************************************************************\n");
 				break;
-			case 4: //TODO
+			case 4: 
 				// Remove a listing
+				System.out.println("Please enter the propert ID of the property to remove."
+						         + "\nIf you do not know the ID, enter -1 to cancel, then view your listings which has the IDs listed."
+						         + "\nWarning: If you delete a property all of the property's data will not be recoverable!");
+				System.out.print("ID: ");
+				int choice = s.nextInt();
+				s.nextLine();
+				System.out.println();
+				if (choice < 0) {
+					break;
+				}
+				ui.removeListing(choice);
+				System.out.println("If that property was in your listings, it has been deleted.\n");
 				break;
 			case 5:
 				// Delete account
@@ -507,8 +529,8 @@ public class Main {
 					+ "\n\t1. Wanting to rent"
 					+ "\n\t2. Wanting to list properties for rent"
 					+ "\n\t3. Wanting to list properties as an agent"
-					+ "\n\t4. Wanting to rent and list properties"
-					+ "Selection: ");
+					+ "\n\t4. Wanting to rent and list properties");
+			System.out.print("Selection: ");
 			int choice = s.nextInt();
 			System.out.println();
 			s.nextLine();
@@ -520,20 +542,24 @@ public class Main {
 				System.out.println();
 				s.nextLine();
 				renter = new Renter(username, password, email, userApi.getNewUserID(), phoneNum, name, bio, uscID);
+				userApi.createRenter(renter);
 				return 0;
 			case 2:
 				seller = new Seller(username, password, email, userApi.getNewUserID(), phoneNum, name, bio, new ArrayList<Property>());
+				userApi.createSeller(seller);
 				return 1;
 			case 3:
 				System.out.print("Please enter the name of your agency: ");
 				String agency = s.nextLine();
 				System.out.println();
 				rea = new RealEstateAgent(username, password, email, userApi.getNewUserID(), phoneNum, username, bio, agency, new ArrayList<Property>());
+				userApi.createRE(rea);
 				return 2;
 			case 4:
 				Renter rent = new Renter(username, password, email, userApi.getNewUserID(), phoneNum, name, bio, uscID);
 				rent.makeSeller();
 				renter = rent;
+				userApi.createRenter(rent);
 				return 3;
 			default:
 				System.out.println("You entered an invalid value.");

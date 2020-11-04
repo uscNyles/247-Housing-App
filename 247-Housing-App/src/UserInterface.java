@@ -54,22 +54,35 @@ public class UserInterface {
 		}
 	}
 
-	public void addPropertySeller() {
-		System.out.println("Name: ");
+	public void addProperty() {
+		System.out.print("Name: ");
 		String name = s.nextLine();
-		System.out.println("Street Address: ");
+		System.out.println();
+		System.out.print("Street Address: ");
 		String address = s.nextLine();
-		System.out.println("Zip Code: ");
+		System.out.println();
+		System.out.print("Zip Code: ");
 		String zipCode = s.nextLine();
-		System.out.println("City: ");
+		System.out.println();
+		System.out.print("City: ");
 		String city = s.nextLine();
-		System.out.println("State: ");
+		System.out.println();
+		System.out.print("State: ");
 		String state = s.nextLine();
-		System.out.println("Description: ");
+		System.out.println();
+		System.out.print("Description: ");
 		String description = s.nextLine();
-		Property p = new Property(Main.seller.getUserID(), name, address, city, state, zipCode, description);
-		System.out.println("How many rooms would you like to add to this property?");
+		System.out.println();
+		Property prop = null;
+		if (Main.renter != null)
+			prop = new Property(Main.renter.getUserID(), name, address, city, state, zipCode, description);
+		else if (Main.seller != null)
+			prop = new Property(Main.seller.getUserID(), name, address, city, state, zipCode, description);
+		else if (Main.rea != null)
+			prop = new Property(Main.rea.getUserID(), name, address, city, state, zipCode, description);
+		System.out.print("How many rooms would you like to add to this property? ");
 		int choice = s.nextInt();
+		System.out.println();
 		s.nextLine();
 		if (choice < 1) {
 			System.out.println("Invalid value entered.");
@@ -153,217 +166,16 @@ public class UserInterface {
 			rooms.add(new Room(Main.roomApi.getNewRoomID(), roomNum, numBeds, numBaths, condition, amenities, bonuses, ptype, sublease, false, price));
 		}
 		for (Room room : rooms) {
-			p.addRoomDB(room);
+			prop.addRoomDB(room);
+			Main.roomApi.createRoom(room);
 		}
-		Main.propertyApi.createProperty(p);
-	}
-	
-	public void addPropertyRenter() {
-		System.out.println("Name: ");
-		String name = s.nextLine();
-		System.out.println("Street Address: ");
-		String address = s.nextLine();
-		System.out.println("Zip Code: ");
-		String zipCode = s.nextLine();
-		System.out.println("City: ");
-		String city = s.nextLine();
-		System.out.println("State: ");
-		String state = s.nextLine();
-		System.out.println("Description: ");
-		String description = s.nextLine();
-		Property p = new Property(Main.renter.getUserID(), name, address, city, state, zipCode, description);
-		System.out.println("How many rooms would you like to add to this property?");
-		int choice = s.nextInt();
-		s.nextLine();
-		if (choice < 1) {
-			System.out.println("Invalid value entered.");
-			return;
-		}
-		ArrayList<Room> rooms = new ArrayList<Room>();
-		for (int i = 0; i < choice; i++) {
-			System.out.println("Room #" + (i+1));
-			System.out.print("Room Number: ");
-			int roomNum = s.nextInt(); 
-			System.out.println();
-			s.nextLine();
-			System.out.print("Number of beds: ");
-			int numBeds = s.nextInt();
-			System.out.println();
-			s.nextLine();
-			System.out.print("Number of baths: ");
-			int numBaths = s.nextInt();
-			System.out.println();
-			s.nextLine();
-			System.out.print("Room Condition: ");
-			String condition = s.nextLine();
-			System.out.println();
-			System.out.println("Enter the available amenities (type 'done' when finished): ");
-			ArrayList<String> amenities = new ArrayList<String>();
-			String amenity = s.nextLine();
-			while (!amenity.equalsIgnoreCase("done")) {
-				amenities.add(amenity);
-				amenity = s.nextLine();
-			}
-			System.out.println("Enter the bonuses of the room (Ex: pets, walk2campus) (type 'done' when finished): ");
-			ArrayList<String> bonuses = new ArrayList<String>();
-			String bonus = s.nextLine();
-			while (!bonus.equalsIgnoreCase("done")) {
-				bonuses.add(bonus);
-				bonus = s.nextLine();
-			}
-			boolean cont = true;
-			PropertyType ptype = PropertyType.APARTMENT; // just to initialize 
-			while(cont) {
-				System.out.println("Choose from the following property types:"
-						+ "\n\t1. Apartment"
-						+ "\n\t2. Condo"
-						+ "\n\t3. House");
-				System.out.print("Selection number: ");
-				int type = s.nextInt();
-				s.nextLine();
-				System.out.println();
-				switch (type) {
-				case 1:
-					cont = false;
-					ptype = PropertyType.APARTMENT;
-					break;
-				case 2:
-					cont = false;
-					ptype = PropertyType.CONDO;
-					break;
-				case 3:
-					cont = false;
-					ptype = PropertyType.HOUSE;
-					break;
-				default:
-					System.out.println("Invalid value was entered. Please select a valid choice 1 to 3.");
-					break;
-				}
-			}
-			System.out.print("Is the property available to sublease (enter 'yes' or 'no'): ");
-			String subLease = s.next();
-			s.nextLine();
-			boolean sublease;
-			if (subLease.equalsIgnoreCase("yes")) {
-				sublease = true;
-			} else {
-				sublease = false;
-			}
-			System.out.println();
-			System.out.print("Enter the price per month of the room: $");
-			double price = s.nextDouble();
-			System.out.println();
-			s.nextLine();
-			rooms.add(new Room(Main.roomApi.getNewRoomID(), roomNum, numBeds, numBaths, condition, amenities, bonuses, ptype, sublease, false, price));
-		}
-		for (Room room : rooms) {
-			p.addRoomDB(room);
-		}
-		Main.propertyApi.createProperty(p);
-	}
-	
-	public void addPropertyREA() {
-		System.out.println("Name: ");
-		String name = s.nextLine();
-		System.out.println("Street Address: ");
-		String address = s.nextLine();
-		System.out.println("Zip Code: ");
-		String zipCode = s.nextLine();
-		System.out.println("City: ");
-		String city = s.nextLine();
-		System.out.println("State: ");
-		String state = s.nextLine();
-		System.out.println("Description: ");
-		String description = s.nextLine();
-		Property p = new Property(Main.rea.getUserID(), name, address, city, state, zipCode, description);
-		System.out.println("How many rooms would you like to add to this property?");
-		int choice = s.nextInt();
-		s.nextLine();
-		if (choice < 1) {
-			System.out.println("Invalid value entered.");
-			return;
-		}
-		ArrayList<Room> rooms = new ArrayList<Room>();
-		for (int i = 0; i < choice; i++) {
-			System.out.println("Room #" + (i+1));
-			System.out.print("Room Number: ");
-			int roomNum = s.nextInt(); 
-			System.out.println();
-			s.nextLine();
-			System.out.print("Number of beds: ");
-			int numBeds = s.nextInt();
-			System.out.println();
-			s.nextLine();
-			System.out.print("Number of baths: ");
-			int numBaths = s.nextInt();
-			System.out.println();
-			s.nextLine();
-			System.out.print("Room Condition: ");
-			String condition = s.nextLine();
-			System.out.println();
-			System.out.println("Enter the available amenities (type 'done' when finished): ");
-			ArrayList<String> amenities = new ArrayList<String>();
-			String amenity = s.nextLine();
-			while (!amenity.equalsIgnoreCase("done")) {
-				amenities.add(amenity);
-				amenity = s.nextLine();
-			}
-			System.out.println("Enter the bonuses of the room (Ex: pets, walk2campus) (type 'done' when finished): ");
-			ArrayList<String> bonuses = new ArrayList<String>();
-			String bonus = s.nextLine();
-			while (!bonus.equalsIgnoreCase("done")) {
-				bonuses.add(bonus);
-				bonus = s.nextLine();
-			}
-			boolean cont = true;
-			PropertyType ptype = PropertyType.APARTMENT; // just to initialize 
-			while(cont) {
-				System.out.println("Choose from the following property types:"
-						+ "\n\t1. Apartment"
-						+ "\n\t2. Condo"
-						+ "\n\t3. House");
-				System.out.print("Selection number: ");
-				int type = s.nextInt();
-				s.nextLine();
-				System.out.println();
-				switch (type) {
-				case 1:
-					cont = false;
-					ptype = PropertyType.APARTMENT;
-					break;
-				case 2:
-					cont = false;
-					ptype = PropertyType.CONDO;
-					break;
-				case 3:
-					cont = false;
-					ptype = PropertyType.HOUSE;
-					break;
-				default:
-					System.out.println("Invalid value was entered. Please select a valid choice 1 to 3.");
-					break;
-				}
-			}
-			System.out.print("Is the property available to sublease (enter 'yes' or 'no'): ");
-			String subLease = s.next();
-			s.nextLine();
-			boolean sublease;
-			if (subLease.equalsIgnoreCase("yes")) {
-				sublease = true;
-			} else {
-				sublease = false;
-			}
-			System.out.println();
-			System.out.print("Enter the price per month of the room: $");
-			double price = s.nextDouble();
-			System.out.println();
-			s.nextLine();
-			rooms.add(new Room(Main.roomApi.getNewRoomID(), roomNum, numBeds, numBaths, condition, amenities, bonuses, ptype, sublease, false, price));
-		}
-		for (Room room : rooms) {
-			p.addRoomDB(room);
-		}
-		Main.propertyApi.createProperty(p);
+		Main.propertyApi.createProperty(prop);
+		if (Main.renter != null)
+			Main.renter.getSeller().addProperty(prop);
+		else if (Main.seller != null)
+			Main.seller.addProperty(prop);
+		else if (Main.rea != null)
+			Main.rea.listProperty(prop);
 	}
 	
 	public ArrayList<Property> searchProperties(String query) {
@@ -411,25 +223,6 @@ public class UserInterface {
 		for(Property p : Main.renter.getFavorites()) {
 			System.out.println(p.toString());
 		}
-	}
-
-	public void removeProperty() {
-		System.out.println("Please enter the id of the property you wish to remove: ");
-		if(Main.renter == null) {
-			for(Property p : Main.seller.getProperties()) {
-				System.out.println(p.toString());
-			}
-			int id = s.nextInt();
-			s.nextLine();
-			Main.propertyApi.deleteProperty(id);
-			return;
-		}
-		for(Property p : Main.renter.getSeller().getProperties()) {
-			System.out.println(p.toString());
-		}
-		int id = s.nextInt();
-		s.nextLine();
-		Main.propertyApi.deleteProperty(id);
 	}
 
 	public void removeListing(int id) {
