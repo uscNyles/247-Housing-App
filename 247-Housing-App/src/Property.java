@@ -49,12 +49,7 @@ public class Property {
 				   + "\n\tDescription: " + description
 				   + "\n\tRentable spaces:";
 		for (int i = 0; i < rooms.size(); i++) {
-<<<<<<< HEAD
 			ret += "\n\t" + (i+1) + ". " + rooms.get(i).toString();
-=======
-			ret += "\n*************************************************************\n\t"
-					+ (i+1) + ". \n" + rooms.get(i).toString();
->>>>>>> branch 'main' of https://github.com/uscNyles/247-Housing-App.git
 		}
 		ret += "\n*************************************************************";
 		return ret;
@@ -69,13 +64,10 @@ public class Property {
 		return (Seller)DataReader.getUser(seller);
 	}
 	
-<<<<<<< HEAD
 	public int getSellerID() {
 		return seller;
 	}
 	
-=======
->>>>>>> branch 'main' of https://github.com/uscNyles/247-Housing-App.git
 	public ArrayList<PaymentType> getAcceptedPayments() {
 		return acceptedPayments;
 	}
@@ -135,10 +127,7 @@ public class Property {
 
 	public void setDescription(String description) {
 		this.description = description;
-<<<<<<< HEAD
 		Main.propertyApi.createProperty(this);
-=======
->>>>>>> branch 'main' of https://github.com/uscNyles/247-Housing-App.git
 	}
 
 	public ArrayList<Review> getReviews() {
@@ -147,10 +136,7 @@ public class Property {
 	
 	public void setPropertyID(int id) {
 		propertyID = id;
-<<<<<<< HEAD
 		Main.propertyApi.createProperty(this);
-=======
->>>>>>> branch 'main' of https://github.com/uscNyles/247-Housing-App.git
 	}
 	
 // ====================================================================================================================

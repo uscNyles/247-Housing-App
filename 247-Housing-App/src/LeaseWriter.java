@@ -3,7 +3,6 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
-<<<<<<< HEAD
 import java.time.LocalDate;
 
 public class LeaseWriter {
@@ -166,6 +165,5 @@ public class LeaseWriter {
 		}
 		inputByLine.close();
 		output.close();
-
 	}
 }

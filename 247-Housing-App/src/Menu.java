@@ -142,7 +142,6 @@ public class Menu {
 	}
 	
 	private void setCreateUserMenu() {
-<<<<<<< HEAD
 		this.createUserMenu = "To create an account, please enter the following information:"
 				+ "\n\t- Name"
 	            + "\n\t- Username"
@@ -151,16 +150,6 @@ public class Menu {
 	            + "\n\t- Phone number"
 	            + "\n\t- Bio"
 	            + "\n\t- Contact information";
-=======
-		this.createUserMenu = "To create an account, please enter the following information:\n"
-				+ "\t- Name"
-	            + "\t- Username"
-	            + "\t- Password"
-	            + "\t- Email"
-	            + "\t- Phone number"
-	            + "\t- Bio"
-	            + "\t- Contact information";
->>>>>>> branch 'main' of https://github.com/uscNyles/247-Housing-App.git
 	}
 	
 	private void setInvalidInputMenu() {
