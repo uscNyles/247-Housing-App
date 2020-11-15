@@ -44,7 +44,8 @@ public class Property {
 	}
 
 	public String toString() {
-		String ret = "Name: " + name + "\nID: " + propertyID + "\n\tSeller: " + DataReader.getUser(seller).getName()
+		String ret = "Name: " + name + "\nID: " + propertyID + " (used for favoriting)"
+				   + "\n\tSeller: " + DataReader.getUser(seller).getName()
 				   + "\n\tAddress: " + address + ", " + city + ", " + state + ", " + zipCode
 				   + "\n\tDescription: " + description
 				   + "\n\tRentable spaces:";
@@ -56,12 +57,12 @@ public class Property {
 	}
 	
 	public boolean equals(Property property) {
-		return DataReader.getUser(this.seller).equals(property.getSeller()) && this.getAddress().equals(property.getAddress()); 
+		return this.getAddress().equals(property.getAddress()); 
 	}
 	
 // =========================================================================================================================
-	public Seller getSeller() {
-		return (Seller)DataReader.getUser(seller);
+	public User getSeller() {
+		return DataReader.getUser(seller);
 	}
 	
 	public int getSellerID() {
