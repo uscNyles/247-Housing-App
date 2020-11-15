@@ -150,35 +150,24 @@ public class UserInterface {
 					break;
 				}
 			}
-
-			int[] selections = new int[4];
 			System.out.println("\t1. Cash"
 			         + "\n\t2. Check"
 			         + "\n\t3. Credit"
 			         + "\n\t4. Debit");
 			System.out.println("Please select all the available payment types (enter each number with a space separating them): ");
-			for (int j = 0; j < selections.length; j++) {
-				if (s.hasNextInt()) {
-					selections[j] = s.nextInt();
-					if (selections[j] < 1 || selections[j] > 4) {
-						System.out.println("Invalid number entered. Try again.");
-						j--;
-					}
-				} else {
-					break;
-				}
-			}
+			String selections = s.nextLine();
 			ArrayList<PaymentType> payTypes = new ArrayList<PaymentType>();
-			for (int j = 0; j < selections.length; j++) {
-				if (selections[j] == 1) {
-					payTypes.add(PaymentType.CASH);
-				} else if (selections[j] == 2) {
-					payTypes.add(PaymentType.CHECK);
-				} else if (selections[j] == 3) {
-					payTypes.add(PaymentType.CREDIT);
-				} else if (selections[j] == 4) {
-					payTypes.add(PaymentType.DEBIT);
-				}
+			if(selections.contains("1")) {
+				payTypes.add(PaymentType.CASH);
+			}
+			if(selections.contains("2")) {
+				payTypes.add(PaymentType.CHECK);
+			}
+			if(selections.contains("3")) {
+				payTypes.add(PaymentType.CREDIT);
+			}
+			if(selections.contains("4")) {
+				payTypes.add(PaymentType.DEBIT);
 			}
 			for (PaymentType payt : payTypes) {
 				prop.addPaymentTypeDB(payt);
@@ -311,7 +300,6 @@ public class UserInterface {
 		if(bathRooms.size() < 1) {
 			bathRooms = bedRooms;
 		}
-<<<<<<< HEAD
 		if(amenRooms.size() < 1) {
 			amenRooms = bedRooms;
 		}
@@ -322,15 +310,6 @@ public class UserInterface {
 			priceRooms = bedRooms;
 		}
 		for(Property prop : bedRooms) {
-=======
-		if(typeRooms.size() < 1) {
-			typeRooms = bedRooms;
-		}
-		if(priceRooms.size() < 1) {
-			priceRooms = bedRooms;
-		}
-		for(Property prop : amenRooms) {
->>>>>>> branch 'main' of https://github.com/uscNyles/247-Housing-App.git
 			if(bedRooms.contains(prop) && bathRooms.contains(prop) && typeRooms.contains(prop) && priceRooms.contains(prop)) {
 				if(!ret.contains(prop)) {
 					ret.add(prop);
@@ -393,11 +372,7 @@ public class UserInterface {
 			if(roommateID == -1) {
 				break;
 			} else if(DataReader.userExists(roommateID)) {
-<<<<<<< HEAD
 				break;
-=======
-				cont = false;
->>>>>>> branch 'main' of https://github.com/uscNyles/247-Housing-App.git
 			}
 			if(cont = true) {
 				System.out.println("Please enter a valid user ID.");
