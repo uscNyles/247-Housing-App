@@ -82,6 +82,10 @@ public class Property {
 		Main.propertyApi.createProperty(this);
 	}
 	
+	public void setNameDB(String name) {
+		this.name = name;
+	}
+	
 	public int getID() {
 		return propertyID;
 	}
@@ -171,6 +175,12 @@ public class Property {
 		}
 		reviews.add(review);
 		return true;
+	}
+	
+	public void addRoom(Room r) {
+		this.rooms.add(r);
+		RoomAPI.getInstance().createRoom(r);
+		Main.propertyApi.createProperty(this);
 	}
 	
 	public void addRoomDB(Room r) {

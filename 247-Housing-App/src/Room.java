@@ -123,13 +123,14 @@ public class Room {
 		this.amenities.add(amenity);
 	}
 	
-	public void removeAmenity(String amenity) {
+	public boolean removeAmenity(String amenity) {
 		for(int i = 0; i < this.amenities.size(); i++) {
 			if(this.amenities.get(i).equalsIgnoreCase(amenity)) {
 				this.amenities.remove(i);
-				break;
+				return true;
 			}
 		}
+		return false;
 	}
 
 	public void addBonus(String bonus) {
@@ -140,13 +141,15 @@ public class Room {
 		this.bonuses.add(bonus);
 	}
 	
-	public void rmBonus(String bonus) {
+	public boolean rmBonus(String bonus) {
 		for(int i = 0; i < this.bonuses.size(); i++) {
 			if(this.bonuses.get(i).equalsIgnoreCase(bonus)) {
 				this.bonuses.remove(i);
-				break;
+				Main.roomApi.createRoom(this);
+				return true;
 			}
 		}
+		return false;
 	}
 	
 	public void rmBonusDB(String bonus) {
