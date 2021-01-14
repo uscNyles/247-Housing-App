@@ -4,7 +4,7 @@ import java.util.Random;
 public class RoomAPI {
 	
 	private ArrayList<Room> rooms;
-	private static RoomAPI roomapi;
+	public static RoomAPI roomapi;
 	
 	public RoomAPI() {
 		rooms = DataReader.loadRooms();

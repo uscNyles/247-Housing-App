@@ -7,54 +7,6 @@ import org.json.simple.JSONObject;
 
 public class DataWriter extends JSONConstants {
 	
-	public static void clearUsers() {
-		JSONArray users = DataReader.getUsersJSON();
-		users.clear();
-		try (FileWriter file = new FileWriter(USERS_FILE)) {
-			file.write(users.toJSONString());
-			file.flush();
-			file.close();
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void clearProperties() {
-		JSONArray props = DataReader.getPropertiesJSON();
-		props.clear();
-		try (FileWriter file = new FileWriter(PROPERTIES_FILE)) {
-			file.write(props.toJSONString());
-			file.flush();
-			file.close();
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void clearReviews() {
-		JSONArray revs = DataReader.getReviewsJSON();
-		revs.clear();
-		try (FileWriter file = new FileWriter(REVIEWS_FILE)) {
-			file.write(revs.toJSONString());
-			file.flush();
-			file.close();
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void clearRooms() {
-		JSONArray rooms = DataReader.getRoomsJSON();
-		rooms.clear();
-		try (FileWriter file = new FileWriter(ROOM_FILE)) {
-			file.write(rooms.toJSONString());
-			file.flush();
-			file.close();
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-	}	
-	
 	@SuppressWarnings("unchecked")
 	public static void writeRenter(Renter renter) {
 		if(DataReader.userExists(renter.getUserID())) {
@@ -281,7 +233,7 @@ public class DataWriter extends JSONConstants {
 			for(int i = 0; i < props.size(); i++) {
 				JSONObject someProp = (JSONObject)props.get(i);
 				if(Integer.parseInt(someProp.get(ID).toString()) == property.getID()) {
-					someProp.replace(PROPERTIES_OWNER, property.getSellerID());
+					someProp.replace(PROPERTIES_OWNER, property.getSeller().getUserID());
 					someProp.replace(PROPERTIES_NAME, property.getName());
 					someProp.replace(PROPERTIES_DESCRIPTION, property.getDescription());
 					JSONArray reviews = new JSONArray();
@@ -500,7 +452,7 @@ public class DataWriter extends JSONConstants {
 						return;
 					}
 					if(userType.contains(SELLER)) {
-						JSONArray properties = (JSONArray)someUser.get(USERS_PROPERTIES);
+						JSONArray properties = (JSONArray)someUser.get(USERS_LISTINGS);
 						ArrayList<String> propString = new ArrayList<String>();
 						for(int j = 0; j < properties.size(); j++) {
 							propString.add(properties.get(j).toString());
@@ -674,7 +626,7 @@ public class DataWriter extends JSONConstants {
 					 someUser.replace(USERS_FAVORITES, favs);
 				 }
 				 if(userType.contains(SELLER)) {
-					 JSONArray props = (JSONArray)someUser.get(USERS_PROPERTIES);
+					 JSONArray props = (JSONArray)someUser.get(USERS_FAVORITES);
 					 for(int j = 0; j < props.size(); j++) {
 						 if(Integer.parseInt(props.get(j).toString()) == id) {
 							 props.remove(j);

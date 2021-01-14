@@ -53,7 +53,7 @@ public class UserAPI {
 	 * @return ArrayList of logged-in users.
 	 */
 	public ArrayList<User> getUsers() {
-		return users;
+		return loggedInUsers;
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public class UserAPI {
 	 * @return True if the user is currently logged in; false otherwise.
 	 */
 	public boolean isLoggedIn(User user) {
-		for (User person : loggedInUsers) {
+		for (User person : users) {
 			if (person.equals(user)) 
 				return true;
 		}

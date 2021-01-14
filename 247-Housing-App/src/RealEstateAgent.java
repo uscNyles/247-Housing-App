@@ -42,8 +42,6 @@ public class RealEstateAgent extends User {
 	}
 	
 	public String showListings() {
-		if (listings.size() == 0) 
-			return "";
 		String ret = this.getName() + "'s Current Listings:\n";
 		for (Property listing : listings) {
 			ret += listing.toString() + "\n====================================================================\n\n";
