@@ -1,1 +1,1 @@
-# 247-Housing-App
+# Final Project for CSCE 247: Software Engineering.
