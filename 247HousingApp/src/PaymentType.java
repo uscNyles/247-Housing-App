@@ -1,1 +1,0 @@
-enum PaymentType {CASH, CHECK, CREDIT, DEBIT};
